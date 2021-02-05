@@ -69,6 +69,10 @@ TEMPLATES = [
     },
 ]
 
+STATICFILES_DIRS = [
+    Path.joinpath(BASE_DIR, 'nutella/static')
+]
+
 WSGI_APPLICATION = 'purbeurre.wsgi.application'
 
 
