@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="jumbotron-fluid product-jumbotron text-center"
+  style="background-image: url('{{ product_img_url }}');">
+  <h2>{{ product_name }}</h2>
+</div>
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-6 text-center align-items-center">
+            <h3>Nutriscore</h3>
+            <span class="nutriscore score_{{ nutriscore }}">
+                <span>A</span>
+                <span>B</span>
+                <span>C</span>
+                <span>D</span>
+                <span>E</span>
+            </span>
+        </div>
+        <div class="col-lg-6 text-center align-items-center">
+            <h3>Repères nutritionnels pour 100g</h3>
+            <span class="reperes">
+                {% for each in product_reperes %}
+                <p>{{ each }}</p>
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-lg-12 text-center align-items-center">
+            <a href="{{product_off_url}}">
+                <h3>Voir la fiche d'OpenFoodFacts</h3>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
