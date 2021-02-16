@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
     <div class="container">
         
-        <a class="navbar-brand js-scroll-trigger logo_svg" href="#page-top">{% svg 'logo_pur_beurre' %} Pur Beurre</a>
+        <a class="navbar-brand js-scroll-trigger logo_svg" href="{% url 'index' %}">{% svg 'logo_pur_beurre' %} Pur Beurre</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -13,8 +13,8 @@
             <ul class="navbar-nav ml-auto my-2 my-lg-0 align-middle">
 
                 <form class="form-inline" action="{% url 'search' %}" method="get">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un aliment..." aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un aliment..." aria-label="Recherche" name='query'>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
                 </form>
 
                 <li class="nav-item my-nav-v-center">
