@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="jumbotron-fluid product-jumbotron text-center"
+  style="background-image: url('{{ query_img_url }}');">
+  <h2>{{ query }}</h2>
+</div>
+
+
+<div class="container">
+  <div class="text-center align-items-center mt-3">
+    {% if substitutes|length == 0 %}
+    <h2>Oups, aucun substitut n'a été trouvé 😕</h2>
+  </div>
+
+    {% else %}
+    <h2>Vous pouvez remplacer cet aliment par :</h2>
+  </div>
+
+  <div class="row">
+    {% for each in substitutes %}
+      <div class="col-lg-4 col-md-6 text-center align-items-center">
+        <a href="/substitute/{{ each.id }}">
+          <img src="{{ each.image_url }}" alt="{{ each.name }}">
+          <h3>{{ each.name }}</h3>
+        </a>
+        <h3>{{ each.nutriscore }}</h3>
+      </div>
+
+    {% endfor %}
+    </div>
+
+  {% endif %}
+</div>
+
+{% endblock %}
