@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -42,7 +43,7 @@
     </div>
     <div class="row">
       <div class="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
-        <img src="/static/img/colette.jpg" alt="Colette" class="img-fluid" id="imgCol">
+        <img src="{% static 'img/colette.jpg' %}" alt="Colette" class="img-fluid" id="imgCol">
         <h3 class="mt-0">Colette Tatou</h3>
         <p class="text-muted mb-5">
           Nous aimons tous manger, surtout en France ! Personnellement, une baguette fraîche, du bon
@@ -53,7 +54,7 @@
         </p>
       </div>
       <div class="col-lg-4 mr-auto text-center">
-        <img src="/static/img/remy.jpg" alt="Rémy" class="img-fluid" id="imgRem">
+        <img src="{% static 'img/remy.jpg' %}" alt="Rémy" class="img-fluid" id="imgRem">
         <h3 class="mt-0">Rémy</h3>
         <p class="text-muted mb-5">
           Pour ma part, je me rendais déjà dans bien des magasins car j'aime beaucoup me balader, surtout
