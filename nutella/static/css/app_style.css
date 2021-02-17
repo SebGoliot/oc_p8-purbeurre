@@ -1,6 +1,14 @@
 
 body {
     font-family: "Scope One", sans-serif;
+    padding-top: 65px;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -18,9 +26,13 @@ h1, h2, h3, h4, h5, h6 {
     fill: currentColor;
 }
 
-
+.account-jumbotron {
+    background-size: cover;
+    opacity: 0.75;
+    background-color: rgb(70, 22, 0);
+    height: 150px;
+}
 .product-jumbotron {
-    margin-top: 4em;
     background-size: contain;
     opacity: 0.75;
     background-color: rgb(70, 22, 0);
@@ -30,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 .product-jumbotron > h2
 {
     color: #fafafa;
-    text-shadow:1px 1px 2px black;
+    text-shadow:2px 2px 2px black;
 }
 
 .nutriscore {

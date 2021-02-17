@@ -1,12 +1,40 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
 from random import randint, choice
+
 
 def index(request):
     return render(request, 'index.html')
 
 
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
+    else:
+        form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form})
 
-def product(request):
+
+def account(request): #TODO: make real view
+    query = request.GET.get('username')
+
+    ctx = {
+        'username': query,
+        'user_mail': query + "@gmail.com", 
+        }
+    return render(request, 'account.html', ctx)
+
+
+def product(request): #TODO: make real view
     query = request.GET.get('product_id')
 
     ctx = {
@@ -24,7 +52,7 @@ def product(request):
     return render(request, 'product.html', ctx)
 
 
-def search(request):
+def search(request): #TODO: make real view
     query = request.GET.get('query')
     substitutes = get_products_from_search(query)
     ctx = {
@@ -35,7 +63,7 @@ def search(request):
     return render(request, 'search.html', ctx)
 
 
-def get_products_from_search(search) -> "list[dict]":
+def get_products_from_search(search) -> "list[dict]": #TODO: make real view
     img_url = 'https://static.openfoodfacts.org/images/products/301/762/040/6003/front_fr.130.200.jpg'
 
     substitutes = []
