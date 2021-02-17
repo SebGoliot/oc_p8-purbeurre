@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: pg_purbeurre
+    restart: always
+    environment:
+      POSTGRES_DB: 'purbeurre'
+      POSTGRES_USER: 'purbeurre_admin'
+      POSTGRES_PASSWORD: 'purbeurre_password'
+    ports:
+      - 5432:5432
