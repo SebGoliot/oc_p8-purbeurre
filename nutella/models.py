@@ -1,3 +1,16 @@
 from django.db import models
 
-# Create your models here.
+class Category(models.Model):
+    """Category model used to group products
+    """
+    name = models.TextField()
+
+class Product(models.Model):
+    """Product model for the products scrapped from the OpenFoodFacts API
+    """
+    name = models.TextField()
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
+    nutriscore = models.TextField()
+    stores = models.PositiveIntegerField() # Associative array ?
+    product_url = models.TextField()
+    image_url = models.TextField()
