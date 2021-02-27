@@ -10,6 +10,7 @@ class Category(models.Model):
 class Product(models.Model):
     """Product model for the products scrapped from the OpenFoodFacts API"""
 
+    code = models.PositiveBigIntegerField()
     name = models.TextField()
     category = models.ForeignKey("Category", on_delete=models.CASCADE)
     nutriscore = models.TextField()

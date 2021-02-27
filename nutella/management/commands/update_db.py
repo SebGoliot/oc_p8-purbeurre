@@ -71,7 +71,7 @@ class Command(BaseCommand):
         return self._sanitize_data(data.content)
 
 
-    def _sanitize_data(self, data:bytes) -> list:
+    def _sanitize_data(self, data:bytes) -> "list[dict]":
         """Sanitizes data from the API
 
         Args:
@@ -87,6 +87,7 @@ class Command(BaseCommand):
         for each in json_data["products"]:
 
             product = {}
+            product['code'] = each.get("code")
             product['name'] = each.get("product_name")
             product['nutriscore'] = each.get("nutriscore_grade")
             product['product_url'] = each.get("url")
@@ -97,7 +98,7 @@ class Command(BaseCommand):
         return products
 
     
-    def _store_products(self, data:list[dict], category:Category):
+    def _store_products(self, data:"list[dict]", category:Category):
         """Saves a product to the db
 
         Args:
@@ -107,9 +108,10 @@ class Command(BaseCommand):
 
         for each in data:
             Product.objects.get_or_create(
+                code = each['code'],
                 name = each['name'],
                 category = category,
-                nutriscore = each['nutriscore'],
+                nutriscore = str(each['nutriscore']).upper(),
                 product_url = each['product_url'],
                 image_url = each['image_url'],
             )

@@ -21,17 +21,16 @@ class Command(BaseCommand):
             category.save()
 
             self.stdout.write(self.style.SUCCESS(
-                (f"Successfuly created a new category: {category_name}\n"
-                "Please use `manage.py update_db` to populate this new category"
-                )
+                f"Successfuly created a new category: {category_name}"
             ))
         else:
-            self.stdout.write(self.style.SUCCESS(
+            self.stdout.write(self.style.WARNING(
                 f"Looks like this category already exist: {category_name}"
             ))
-            self.stdout.write(self.style.WARNING(
-                "Please use `manage.py update_db` to populate this category"
-            ))
+        
+        self.stdout.write(self.style.NOTICE(
+            "Please use `manage.py update_db` to populate this category"
+        ))
 
 
     def _name_is_available(self, category_name:str) -> bool:
