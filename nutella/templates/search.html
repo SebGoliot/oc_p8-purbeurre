@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="jumbotron-fluid product-jumbotron text-center"
-  style="background-image: url('{{ query_img_url }}');">
+  style="background-image: url('{{ query_product.image_url }}');">
   <h2>{{ query }}</h2>
 </div>
 
@@ -21,7 +21,7 @@
   <div class="row">
     {% for each in substitutes %}
       <div class="col-lg-4 col-md-6 text-center align-items-center">
-        <a href="/substitute/{{ each.id }}">
+        <a href="/product/{{ each.code }}">
           <img src="{{ each.image_url }}" alt="{{ each.name }}">
           <h3>{{ each.name }}</h3>
         </a>

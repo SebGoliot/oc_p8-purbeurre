@@ -111,7 +111,7 @@ class Command(BaseCommand):
                 code = each['code'],
                 name = each['name'],
                 category = category,
-                nutriscore = str(each['nutriscore']).upper(),
+                nutriscore = each['nutriscore'].lower(),
                 product_url = each['product_url'],
                 image_url = each['image_url'],
             )
