@@ -92,6 +92,11 @@ class Command(BaseCommand):
             product['nutriscore'] = each.get("nutriscore_grade")
             product['product_url'] = each.get("url")
             product['image_url'] = each.get("image_front_url")
+            if nutriments := each.get('nutriments'):
+                product['satfat_100g'] = nutriments.get('saturated-fat_100g')
+                product['fat_100g'] = nutriments.get('fat_100g')
+                product['sugars_100g'] = nutriments.get('sugars_100g')
+                product['salt_100g'] = nutriments.get('salt_100g')
 
             if all(product.values()):
                 products.append(product)
@@ -114,4 +119,8 @@ class Command(BaseCommand):
                 nutriscore = each['nutriscore'].lower(),
                 product_url = each['product_url'],
                 image_url = each['image_url'],
+                saturated_fat = each['satfat_100g'],
+                fat = each['fat_100g'],
+                sugar = each['sugars_100g'],
+                salt = each['salt_100g'],
             )

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -16,3 +17,16 @@ class Product(models.Model):
     nutriscore = models.TextField()
     product_url = models.TextField()
     image_url = models.TextField()
+
+    fat = models.DecimalField(decimal_places=2, max_digits=6)
+    saturated_fat = models.DecimalField(decimal_places=2, max_digits=6)
+    sugar = models.DecimalField(decimal_places=2, max_digits=6)
+    salt = models.DecimalField(decimal_places=2, max_digits=6)
+
+
+class Substitute(models.Model):
+    """Substritute associative table"""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
