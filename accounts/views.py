@@ -30,6 +30,6 @@ def account(request):  # TODO: make real view
     query = request.GET.get('username')
     ctx = {
         'username': query,
-        'user_mail': query + "@gmail.com",
+        'user_mail': "example@mail.com",
     }
     return render(request, 'account.html', ctx)
