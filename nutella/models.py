@@ -1,11 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import CustomUser
 
 
 class Category(models.Model):
     """Category model used to group products"""
 
     name = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "categories"
 
 
 class Product(models.Model):
@@ -27,6 +30,9 @@ class Product(models.Model):
 class Substitute(models.Model):
     """Substritute associative table"""
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
+    user = models.ForeignKey(
+            CustomUser, on_delete=models.CASCADE, related_name='user')
+    old_product = models.ForeignKey(
+            Product, on_delete=models.CASCADE, related_name='old_product')
+    new_product = models.ForeignKey(
+            Product, on_delete=models.CASCADE, related_name='new_product')
