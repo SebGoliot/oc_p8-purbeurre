@@ -5,17 +5,37 @@ from .models import CustomUser
 
 class UserCreationForm(forms.ModelForm):
 
-    email = forms.EmailField(widget=forms.TextInput(
+    first_name = forms.CharField(
+        label='Prénom',
+        widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Prénom'
+        }))
+    last_name = forms.CharField(
+        label='Nom',
+        widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Nom'
+        }))
+    email = forms.EmailField(
+        label='E-mail',
+        widget=forms.TextInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'E-mail'
         }))
-    password1 = forms.CharField(widget=forms.PasswordInput(
+    password1 = forms.CharField(
+        label='Mot de passe',
+        widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'Mot de passe'
         }))
-    password2 = forms.CharField(widget=forms.PasswordInput(
+    password2 = forms.CharField(
+        label='Mot de passe',
+        widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
             'placeholder': 'Confirmez votre mot de passe'
@@ -23,7 +43,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
 
     def save(self, commit=True):
         user = super().save(commit=commit)

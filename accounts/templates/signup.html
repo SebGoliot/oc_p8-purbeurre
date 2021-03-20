@@ -1,32 +1,27 @@
 {% extends 'base.html' %}
-
 {% load static %}
+{% block content %}
 
-{% block stylesheet %}
-  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
-{% endblock %}
-
-{% block body %}
-  <div class="container">
-    <h1 class="text-center logo my-4">
-      <a href="{% url 'home' %}">Django Boards</a>
-    </h1>
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-md-10 col-sm-12">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title">Sign up</h3>
-            <form method="post" novalidate>
-              {% csrf_token %}
-              {% include 'includes/form.html' %}
-              <button type="submit" class="btn btn-primary btn-block">Create an account</button>
-            </form>
-          </div>
-          <div class="card-footer text-muted text-center">
-            Already have an account? <a href="#">Log in</a>
+<header class="masthead">
+    <div class="container h-100 text-light">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="container-titlehead d-flex">
+          <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+              <h1 class="text-uppercase font-weight-bold">Créez votre compte</h1>
+              <hr class="divider my-4">
+            </div>
+            <div class="col-lg-10 align-self-baseline">
+                <form method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">S'inscrire</button>
+                </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </header>
+
 {% endblock %}
