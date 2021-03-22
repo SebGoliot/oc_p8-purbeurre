@@ -8,14 +8,14 @@
         <div class="container-titlehead d-flex">
           <div class="row align-items-center justify-content-center text-center">
             <div class="col-lg-10 align-self-end">
-              <h1 class="text-uppercase font-weight-bold">Créez votre compte</h1>
+              <h1 class="text-uppercase font-weight-bold">{{form_title}}</h1>
               <hr class="divider my-4">
             </div>
             <div class="col-lg-10 align-self-baseline">
                 <form method="post">
                     {% csrf_token %}
                     {{form.as_p}}
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">S'inscrire</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{form_button}}</button>
                 </form>
             </div>
           </div>

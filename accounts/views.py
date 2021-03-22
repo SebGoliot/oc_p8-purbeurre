@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from accounts.forms import UserCreationForm
+from django.contrib.auth import login, authenticate, logout
+from accounts.forms import UserCreationForm, LoginForm
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -21,15 +21,49 @@ def signup(request):
             return redirect('index')
     else:
         form = UserCreationForm()
-    return render(request, 'signup.html', {'form': form})
-
-
-def account(request):  # TODO: make real view
-    """ View rendering the user account """
-
-    query = request.GET.get('username')
+    
     ctx = {
-        'username': query,
-        'user_mail': "example@mail.com",
+        'form': form,
+        'form_title': 'Créez votre compte',
+        'form_button': 'S\'inscrire',
     }
-    return render(request, 'account.html', ctx)
+    return render(request, 'auth_form.html', ctx)
+
+def login_view(request):
+    """ View handling the login form rendering """
+
+    if request.method == 'POST':
+        email = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(email=email, password=password)
+        if user is not None and user.is_active:
+            login(request, user)
+
+    else:
+        form = LoginForm()
+        ctx = {
+            'form': form,
+            'form_title': 'Connexion',
+            'form_button': 'Connexion',
+        }
+        return render(request, 'auth_form.html', ctx)
+    
+    return redirect('index')
+
+
+
+def account(request):
+    """ View rendering the user account """
+    if request.user.is_authenticated:
+        ctx = {
+            'username': request.user.first_name,
+            'user_mail': request.user.email,
+        }
+        return render(request, 'account.html', ctx)
+    else:
+        return redirect('login')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')

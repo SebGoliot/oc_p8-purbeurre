@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.utils import ErrorList
+from django.contrib.auth.forms import AuthenticationForm
 from .models import CustomUser
 
 
@@ -51,3 +52,22 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+
+    username = forms.EmailField(
+        label='E-mail',
+        widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'E-mail'
+        }))
+    password = forms.CharField(
+        label='Mot de passe',
+        widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Mot de passe'
+        }))
