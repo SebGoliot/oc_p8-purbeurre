@@ -3,6 +3,7 @@ from nutella.models import Product, Category
 from django.db.utils import OperationalError
 from django.db.models.query import QuerySet
 import requests, json
+from django.core.exceptions import ObjectDoesNotExist
 
 class Command(BaseCommand):
 
@@ -93,13 +94,14 @@ class Command(BaseCommand):
             product['product_url'] = each.get("url")
             product['image_url'] = each.get("image_front_url")
             if nutriments := each.get('nutriments'):
-                product['satfat_100g'] = nutriments.get('saturated-fat_100g')
-                product['fat_100g'] = nutriments.get('fat_100g')
-                product['sugars_100g'] = nutriments.get('sugars_100g')
-                product['salt_100g'] = nutriments.get('salt_100g')
+                product['saturated_fat'] = nutriments.get('saturated-fat_100g')
+                product['fat'] = nutriments.get('fat_100g')
+                product['sugar'] = nutriments.get('sugars_100g')
+                product['salt'] = nutriments.get('salt_100g')
 
             if all(product.values()):
                 products.append(product)
+                product['nutriscore'] = product['nutriscore'].lower()
         return products
 
     
@@ -112,15 +114,10 @@ class Command(BaseCommand):
         """
 
         for each in data:
-            Product.objects.get_or_create(
-                code = each['code'],
-                name = each['name'],
-                category = category,
-                nutriscore = each['nutriscore'].lower(),
-                product_url = each['product_url'],
-                image_url = each['image_url'],
-                saturated_fat = each['satfat_100g'],
-                fat = each['fat_100g'],
-                sugar = each['sugars_100g'],
-                salt = each['salt_100g'],
-            )
+            try:
+                product = Product.objects.get(code=each['code'])
+            except ObjectDoesNotExist:
+                product = Product.objects.create(**each)
+
+            product.category.add(category)
+            product.save()
