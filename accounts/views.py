@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from accounts.forms import UserCreationForm, LoginForm
 
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 User = get_user_model()
 
 
@@ -26,8 +27,12 @@ def signup(request):
         'form': form,
         'form_title': 'Créez votre compte',
         'form_button': 'S\'inscrire',
+        'form_option_title': 'Vous avez déjà un compte ?',
+        'form_option_target': reverse('login'),
+        'form_option_button': 'Se connecter',
     }
     return render(request, 'auth_form.html', ctx)
+
 
 def login_view(request):
     """ View handling the login form rendering """
@@ -38,17 +43,20 @@ def login_view(request):
         user = authenticate(email=email, password=password)
         if user is not None and user.is_active:
             login(request, user)
+            return redirect('index')
 
-    else:
-        form = LoginForm()
-        ctx = {
-            'form': form,
-            'form_title': 'Connexion',
-            'form_button': 'Connexion',
-        }
-        return render(request, 'auth_form.html', ctx)
+    form = LoginForm()
+    ctx = {
+        'form': form,
+        'form_title': 'Connexion',
+        'form_button': 'Connexion',
+        'form_option_title': 'Pas encore de compte ?',
+        'form_option_target': reverse('signup'),
+        'form_option_button': 'S\'inscrire',
+    }
+    return render(request, 'auth_form.html', ctx)
+
     
-    return redirect('index')
 
 
 
