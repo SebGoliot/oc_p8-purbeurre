@@ -2,15 +2,23 @@
 
 {% block content %}
 
-<div class="jumbotron-fluid product-jumbotron text-center"
-  style="background-image: url('{{ product_img_url }}');">
-  <h2>{{ product_name }}</h2>
-</div>
+<header class="product_header text-center"
+  style="
+    background: linear-gradient(to bottom, #5c4d42cc 0%,#5c4d42cc 100%),
+                url('{{ product_img_url }}');
+    background-size: contain;
+">
+    <h2 class="text-uppercase font-weight-bold text-light" >
+      {{ product_name }}
+    </h2>
+</header>
 
 
-<div class="container">
+<section class="form-section" id="contact">
+    <div class="container">
+      <div class="row justify-content-center">
 
-    <div class="row">
+
         <div class="col-lg-6 text-center align-items-center">
             <h3>Nutriscore</h3>
             <span class="nutriscore score_{{ nutriscore }}">
@@ -24,20 +32,103 @@
         <div class="col-lg-6 text-center align-items-center">
             <h3>Repères nutritionnels pour 100g</h3>
             <span class="reperes">
-                {% for each in product_reperes %}
-                <p>{{ each }}</p>
+                {% for key, value in product_reperes.items %}
+                    <p>{{ value }}g de {{ key }}</p>
                 {% endfor %}
             </span>
         </div>
-    </div>
-    <div class="row">
-        <div class=" col-lg-12 text-center align-items-center">
-            <a href="{{product_url}}">
-                <h3>Voir la fiche d'OpenFoodFacts</h3>
-            </a>
-        </div>
-    </div>
 
-</div>
+        <div class="row justify-content-center">
+            <div class=" col-lg-12 text-center align-items-center">
+                <a href="{{product_url}}">
+                    <h3>Voir la fiche d'OpenFoodFacts</h3>
+                </a>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 
 {% endblock %}
+
+
+
+<!-- 
+
+<header class="masthead" style="
+                background-image: url('{{ product_img_url }}');
+                min-height: 25rem;">
+    <div class="container h-100 text-light">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="container-titlehead d-flex">
+          <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+              <h2 class="text-uppercase font-weight-bold">{{ product_name }}</h2>
+              <hr class="divider my-4" />
+            </div>
+            <div class="col-lg-10 align-self-baseline">
+
+
+                <div class="row">
+                    <div class="col-lg-6 text-center align-items-center">
+                        <h3>Nutriscore</h3>
+                        <span class="nutriscore score_{{ nutriscore }}">
+                            <span>A</span>
+                            <span>B</span>
+                            <span>C</span>
+                            <span>D</span>
+                            <span>E</span>
+                        </span>
+                    </div>
+                    <div class="col-lg-6 text-center align-items-center">
+                        <h3>Repères nutritionnels pour 100g</h3>
+                        <span class="reperes">
+                            {% for each in product_reperes %}
+                            <p>{{ each.p }}</p>
+                            {% endfor %}
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-lg-12 text-center align-items-center">
+                        <a href="{{product_url}}">
+                            <h3>Voir la fiche d'OpenFoodFacts</h3>
+                        </a>
+                    </div>
+                </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="jumbotron-fluid product-jumbotron text-center"
+  style="background-image: url('{{ product_img_url }}');">
+  <h2></h2>
+</div>
+
+
+<div class="container">
+
+
+
+</div> -->
+
+ -->

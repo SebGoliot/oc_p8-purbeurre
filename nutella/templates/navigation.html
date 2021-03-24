@@ -17,28 +17,32 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
                 </form>
                 {% if user.is_authenticated %}
-                <!-- TODO fix URLs in the following 4 href -->
                 <li class="nav-item my-nav-v-center">
-                    <a class="nav-link js-scroll-trigger" href="/account"> 
+                    <a class="nav-link js-scroll-trigger" href="{% url 'account' %}"> 
                         <i class="far fa-user fa-2x" style="line-height: inherit"></i>
                     </a>
                 </li>
                 <li class="nav-item my-nav-v-center">
-                    <a class="nav-link js-scroll-trigger" href="/my-products">
+                    <a class="nav-link js-scroll-trigger" href="{% url 'products' %}">
                         <i class="carrot align-middle">
                             {%svg 'carrot'%}
                         </i>
                     </a>
                 </li>
                 <li class="nav-item my-nav-v-center">
-                    <a class="nav-link js-scroll-trigger" href="/logout">
+                    <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}">
                         <i class="fas fa-sign-out-alt fa-2x align-middle"></i>
                     </a>
                 </li>
                 {% else %}
                 <li class="nav-item my-nav-v-center">
-                    <a class="nav-link js-scroll-trigger" href="/login"> 
+                    <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"> 
                         <i class="far fa-user fa-2x" style="line-height: inherit"></i>
+                    </a>
+                </li>
+                <li class="nav-item my-nav-v-center">
+                    <a class="nav-link js-scroll-trigger" href="{% url 'signup' %}"> 
+                        <i class="fas fa-sign-in-alt fa-2x" style="line-height: inherit"></i>
                     </a>
                 </li>
                 {% endif %}
