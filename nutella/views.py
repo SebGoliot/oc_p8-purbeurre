@@ -9,6 +9,9 @@ from random import randint, choice
 def index(request):
     return render(request, 'index.html')
 
+def legal(request):
+    return render(request, 'legal.html')
+
 
 def product(request, product_id):  # TODO: make real view
 
