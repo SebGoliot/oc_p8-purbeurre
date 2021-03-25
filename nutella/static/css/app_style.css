@@ -1,19 +1,34 @@
 
 body {
     font-family: "Scope One", sans-serif;
-    padding-top: 65px;
+    margin-bottom: 4.2rem;
+    height: 100%;
+}
+
+.content_wrapper {
+    min-height: 100%;
+    padding-bottom: 4.2rem;
+    margin-bottom: -4.2rem;
 }
 
 footer {
     position: relative;
     bottom: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
+    height: 4.2rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: "Open Sans", sans-serif;
-  }
+}
+
+.form-section {
+    padding: 3rem 0;
+}
+    
+header.masthead {
+    min-height: 45rem !important;
+}
 
 .logo_svg > svg {
     height: 32px;
@@ -26,23 +41,21 @@ h1, h2, h3, h4, h5, h6 {
     fill: currentColor;
 }
 
-.account-jumbotron {
-    background-size: cover;
-    opacity: 0.75;
-    background-color: rgb(70, 22, 0);
-    height: 150px;
-}
-.product-jumbotron {
-    background-size: contain;
-    opacity: 0.75;
-    background-color: rgb(70, 22, 0);
-    height: 150px;
+.image_header {
+    height: 12rem;
+    background-position: center !important;
 }
 
-.product-jumbotron > h2
+.image_header > h2
 {
-    color: #fafafa;
-    text-shadow:2px 2px 2px black;
+    padding-top: 6rem;
+    padding-bottom: 2.5rem;
+    margin-bottom: 0;
+}
+.masthead_style {
+    background: linear-gradient(to bottom, #5c4d42cc 0%, #5c4d42cc 100%),
+        url("../img/bg-masthead.jpg");
+    background-size: contain;
 }
 
 .nutriscore {
