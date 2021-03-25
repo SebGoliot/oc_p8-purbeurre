@@ -21,10 +21,14 @@ class Product(models.Model):
     product_url = models.TextField()
     image_url = models.TextField()
 
-    fat = models.DecimalField(decimal_places=2, max_digits=6)
-    saturated_fat = models.DecimalField(decimal_places=2, max_digits=6)
-    sugar = models.DecimalField(decimal_places=2, max_digits=6)
-    salt = models.DecimalField(decimal_places=2, max_digits=6)
+    fat = models.DecimalField(
+            decimal_places=2, max_digits=6, verbose_name='matières grasses')
+    saturated_fat = models.DecimalField(
+            decimal_places=2, max_digits=6, verbose_name='acides gras saturés')
+    sugar = models.DecimalField(
+            decimal_places=2, max_digits=6, verbose_name='sucres')
+    salt = models.DecimalField(
+            decimal_places=2, max_digits=6, verbose_name='sel')
 
 
 class Substitute(models.Model):

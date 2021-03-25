@@ -13,7 +13,7 @@ def legal(request):
     return render(request, 'legal.html')
 
 
-def product(request, product_id):  # TODO: make real view
+def product(request, product_id):
 
     product = Product.objects.get(code=product_id)
 
@@ -22,13 +22,12 @@ def product(request, product_id):  # TODO: make real view
         'nutriscore': product.nutriscore,
         'product_url': product.product_url,
         'product_img_url': product.image_url,
-        'product_reperes': [ #TODO: Add this to the product model
-            "30.9 g Matières grasses / Lipides en quantité élevée",
-            "10.6 g Acides gras saturés en quantité élevée",
-            "56.3 g Sucres en quantité élevée",
-            "0.107 g Sel en faible quantité",
-            "Taille d'une portion : 15 g",
-        ],
+        'product_reperes': {
+            product._meta.get_field('fat').verbose_name: product.fat,
+            product._meta.get_field('saturated_fat').verbose_name: product.saturated_fat,
+            product._meta.get_field('sugar').verbose_name: product.sugar,
+            product._meta.get_field('salt').verbose_name: product.salt,
+        },
     }
     return render(request, 'product.html', ctx)
 
