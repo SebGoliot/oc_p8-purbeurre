@@ -25,6 +25,38 @@ h1, h2, h3, h4, h5, h6 {
 .form-section {
     padding: 3rem 0;
 }
+
+.product-tile {
+    width: 300px;
+    height: 400px;
+    padding: 1rem;
+}
+.product-tile > a > img {
+    width: 280px;
+    height: 220px;
+    border-radius: 1rem;
+    size: contain;
+}
+
+.product-tile > a > h3 {
+    width: 280px;
+    height: 2.8em;
+    line-height: 1.4em;
+    display: flex;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden; 
+}
+
+.product-tile > h3 {
+    position: absolute;
+    right: 1rem;
+    top: 2rem;
+    border-radius: 1rem;
+    padding: 0.1rem 1rem 0.4rem 1rem;
+    background-color: red;
+}
     
 header.masthead {
     min-height: 45rem !important;

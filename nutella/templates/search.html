@@ -2,10 +2,16 @@
 
 {% block content %}
 
-<div class="jumbotron-fluid product-jumbotron text-center"
-  style="background-image: url('{{ query_product.image_url }}');">
-  <h2>{{ query }}</h2>
-</div>
+<header class="image_header text-center"
+  style="
+    background: linear-gradient(to bottom, #5c4d42cc 0%,#5c4d42cc 100%),
+                url('{{ query_product.image_url }}');
+    background-size: contain;
+">
+    <h2 class="text-uppercase font-weight-bold text-light" >
+      {{ query }}
+    </h2>
+</header>
 
 
 <div class="container">
@@ -20,13 +26,19 @@
 
   <div class="row">
     {% for each in substitutes %}
-      <div class="col-lg-4 col-md-6 text-center align-items-center">
-        <a href="/product/{{ each.code }}">
-          <img src="{{ each.image_url }}" alt="{{ each.name }}">
-          <h3>{{ each.name }}</h3>
-        </a>
-        <h3>{{ each.nutriscore }}</h3>
-      </div>
+    <div class="col-lg-4 col-md-6 product-tile">
+      <a href="/product/{{ each.code }}">
+        <img src="{{ each.image_url }}" alt="{{ each.name }}">
+        <h3>{{ each.name }}</h3>
+      </a>
+      <h3>{{ each.nutriscore|title }}</h3>
+      <a href="javascript:void(0);" onclick="like({{ each.code }})" >
+          <i class="far fa-save text-primary"></i>
+          <i class="fas fa-spinner fa-pulse text-primary"></i>
+          <i class="fas fa-save text-primary"></i>
+          Sauvegarder le produit
+      </a>
+    </div>
 
     {% endfor %}
     </div>
