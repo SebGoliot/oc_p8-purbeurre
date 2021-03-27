@@ -29,14 +29,25 @@
     <div class="col-lg-4 col-md-6 product-tile">
       <a href="/product/{{ each.code }}">
         <img src="{{ each.image_url }}" alt="{{ each.name }}">
-        <h3>{{ each.name }}</h3>
+        <h4>{{ each.name }}</h4>
       </a>
       <h3>{{ each.nutriscore|title }}</h3>
-      <a href="javascript:void(0);" onclick="like({{ each.code }})" >
-          <i class="far fa-save text-primary"></i>
-          <i class="fas fa-spinner fa-pulse text-primary"></i>
+      <a href="javascript:void(0);" onclick="bookmark_product({{each.code}}, '{{csrf_token}}');" class="bookmark-link" id="{{ each.code }}">
+
+        <i class="fas fa-spinner fa-pulse text-primary js-update" style="display: none;"></i>
+
+        <span class="is-bookmark"
+          {% if not each.is_bookmark %} style="display: none;" {% endif %}>
           <i class="fas fa-save text-primary"></i>
+          Retirer le produit
+        </span>
+
+        <span class="is-not-bookmark"
+          {% if each.is_bookmark %} style="display: none;" {% endif %}>
+          <i class="far fa-save text-primary"></i>
           Sauvegarder le produit
+        </span>
+
       </a>
     </div>
 

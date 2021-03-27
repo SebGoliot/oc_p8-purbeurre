@@ -31,12 +31,10 @@ class Product(models.Model):
             decimal_places=2, max_digits=6, verbose_name='sel')
 
 
-class Substitute(models.Model):
-    """Substritute associative table"""
+class Bookmark(models.Model):
+    """Bookmarks associative table"""
 
     user = models.ForeignKey(
             CustomUser, on_delete=models.CASCADE, related_name='user')
-    old_product = models.ForeignKey(
-            Product, on_delete=models.CASCADE, related_name='old_product')
-    new_product = models.ForeignKey(
-            Product, on_delete=models.CASCADE, related_name='new_product')
+    product = models.ForeignKey(
+            Product, on_delete=models.CASCADE, related_name='product')

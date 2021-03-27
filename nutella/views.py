@@ -1,10 +1,7 @@
-from nutella.models import Product
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
-
-from random import randint, choice
-
+from django.http.response import Http404, JsonResponse
+from nutella.models import Product, Bookmark
+from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 
 def index(request):
     return render(request, 'index.html')
@@ -34,7 +31,8 @@ def product(request, product_id):
 
 def search(request):
     query = request.GET.get('query')
-    product, substitutes = _get_substitutes_from_search(query)
+    user = request.user
+    product, substitutes = _get_substitutes_from_search(query, user)
     ctx = {
         'substitutes': substitutes,
         'query': query,
@@ -45,13 +43,18 @@ def search(request):
 
 def _get_substitutes_from_search(
     search,
+def _get_substitutes_from_search( search, user
 ) -> "tuple[Product,list[dict]] | tuple[None,None]":
 
     if product := Product.objects.filter(name__icontains=search).first():
-        cat = product.category
+        cat = product.category.first()
         products = Product.objects.filter(category=cat).order_by('nutriscore')
+        # FIXME flawed logic ? Search gets the first product containing the
+        # search string, returns all the products found in the first category
 
         substitutes = []
+        user_bookmarks = Bookmark.objects.filter(user=user)
+        user_bookmarks = [x.product for x in user_bookmarks]
 
         for product in products:
             substitutes.append(
@@ -61,8 +64,35 @@ def _get_substitutes_from_search(
                     'nutriscore': product.nutriscore,
                     'product_url': product.product_url,
                     'image_url': product.image_url,
+                    'is_bookmark': product in user_bookmarks
                 }
             )
 
         return (product, substitutes)
     return (None, None)
+
+
+def bookmark_product(request, product_id):
+    
+    bookmark_state = None
+    if request.method == 'POST' and request.is_ajax():
+        user = request.user
+        if user.is_authenticated:
+            product = Product.objects.get(code=product_id)
+            print(type(product))
+            bookmark = {
+                'user': user,
+                'product': product
+            }
+            try:
+                Bookmark.objects.get(**bookmark).delete()
+                bookmark_state = False
+            except ObjectDoesNotExist:
+                Bookmark.objects.create(**bookmark)
+                bookmark_state = True
+
+            return JsonResponse({
+                "bookmark_state": bookmark_state
+                }, status=200)
+    else:
+        raise Http404
