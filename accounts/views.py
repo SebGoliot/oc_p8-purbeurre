@@ -2,10 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from accounts.forms import UserCreationForm, LoginForm
 
-from django.contrib.auth import get_user_model
 from django.urls import reverse
-User = get_user_model()
-
 
 
 def signup(request):
@@ -55,9 +52,6 @@ def login_view(request):
         'form_option_button': 'S\'inscrire',
     }
     return render(request, 'auth_form.html', ctx)
-
-    
-
 
 
 def account(request):

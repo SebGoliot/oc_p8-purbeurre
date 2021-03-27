@@ -128,3 +128,5 @@ nutella/migrations/
 .vscode/
 
 accounts/migrations/
+
+reset_db.bat

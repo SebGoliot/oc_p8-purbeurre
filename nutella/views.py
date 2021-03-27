@@ -41,8 +41,10 @@ def search(request):
     return render(request, 'search.html', ctx)
 
 
-def _get_substitutes_from_search(
-    search,
+def user_products(request): #TODO this
+    return render(request, 'index.html')
+
+
 def _get_substitutes_from_search( search, user
 ) -> "tuple[Product,list[dict]] | tuple[None,None]":
 
