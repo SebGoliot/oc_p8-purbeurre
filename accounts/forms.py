@@ -53,6 +53,15 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
 
+    def clean(self):
+        cleaned_data = super(UserCreationForm, self).clean()
+        password = cleaned_data.get("password1")
+        confirm_password = cleaned_data.get("password2")
+
+        if password != confirm_password:
+            raise forms.ValidationError("The passwords doesn't match")
+
+
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)

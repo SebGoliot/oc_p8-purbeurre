@@ -1,7 +1,7 @@
 from django.http.response import Http404, JsonResponse
-from nutella.models import Product, Bookmark
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
+from nutella.models import Product, Bookmark
 
 def index(request):
     return render(request, 'index.html')
@@ -31,7 +31,11 @@ def product(request, product_id):
 
 def search(request):
     query = request.GET.get('query')
-    user = request.user
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = None
+
     product, substitutes = _get_substitutes_from_search(query, user)
     ctx = {
         'substitutes': substitutes,
@@ -55,8 +59,11 @@ def _get_substitutes_from_search( search, user
         # search string, returns all the products found in the first category
 
         substitutes = []
-        user_bookmarks = Bookmark.objects.filter(user=user)
-        user_bookmarks = [x.product for x in user_bookmarks]
+        if user :
+            user_bookmarks = Bookmark.objects.filter(user=user)
+            user_bookmarks = [x.product for x in user_bookmarks]
+        else:
+            user_bookmarks = []
 
         for product in products:
             substitutes.append(
@@ -74,14 +81,13 @@ def _get_substitutes_from_search( search, user
     return (None, None)
 
 
-def bookmark_product(request, product_id):
+def bookmark(request, product_id):
     
     bookmark_state = None
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         user = request.user
         if user.is_authenticated:
             product = Product.objects.get(code=product_id)
-            print(type(product))
             bookmark = {
                 'user': user,
                 'product': product
@@ -96,5 +102,9 @@ def bookmark_product(request, product_id):
             return JsonResponse({
                 "bookmark_state": bookmark_state
                 }, status=200)
-    else:
-        raise Http404
+        else:
+            return JsonResponse({
+                "bookmark_state": False
+                }, status=403)
+
+    raise Http404
