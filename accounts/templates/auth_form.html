@@ -11,7 +11,7 @@
             <form method="post">
               {% csrf_token %}
               {{form.as_p}}
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+              <button id="submit_button" class="btn btn-outline-success my-2 my-sm-0" type="submit">
                 {{form_button}}
               </button>
             </form>
@@ -28,7 +28,7 @@
       <div class="col-lg-10 text-center">
         <p>{{form_option_title}}</p>
 <a href="{{form_option_target}}">
-  <button id="submit_button" class="btn btn-outline-light my-2 my-sm-0" type="submit">
+  <button class="btn btn-outline-light my-2 my-sm-0" type="submit">
     {{form_option_button}}
   </button>
 </a>

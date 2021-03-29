@@ -3,11 +3,13 @@ function bookmark_product(product_id, csrf){
     $.ajax({
         headers: {'X-CSRFTOKEN': csrf},
         type: "post",
-        url: "/bookmark-product/"+product_id,
+        url: "/bookmark/"+product_id,
         beforeSend: bookmark_state(product_id, 'js-update'),
         success: function(answer) {
-            console.log(answer)
             bookmark_state(product_id, answer.bookmark_state);
+        },
+        error: function(answer) {
+            bookmark_state(product_id, false);
         }
     });
 }

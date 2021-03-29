@@ -8,6 +8,9 @@ from django.urls import reverse
 def signup(request):
     """ View handling the registration form rendering """
 
+    if request.user.is_authenticated:
+        return redirect('account')
+
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -33,6 +36,9 @@ def signup(request):
 
 def login_view(request):
     """ View handling the login form rendering """
+
+    if request.user.is_authenticated:
+        return redirect('account')
 
     if request.method == 'POST':
         email = request.POST.get('username')
