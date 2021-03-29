@@ -72,9 +72,11 @@ class TestViews(TestCase):
 
 
     def test_search_logged_user(self):
-        self.client.force_login(self.user)
+        self.client.login(**{
+            'email': self.username,
+            'password': self.password
+            })
         response = self.client.get(reverse('search'), {'query': 'test_name'})
-        self.client.logout()
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'search.html')
@@ -105,7 +107,6 @@ class TestViews(TestCase):
             'password': self.password
         })
         response = self.client.post(reverse('bookmark', args=[42]))
-        self.client.logout()
         self.assertEquals(response.status_code, 200)
 
         bookmark = Bookmark.objects.get(
@@ -126,7 +127,6 @@ class TestViews(TestCase):
         }
         Bookmark.objects.create(**bookmark)
         response = self.client.post(reverse('bookmark', args=[42]))
-        self.client.logout()
 
         self.assertEquals(response.status_code, 200)
         self.assertRaises(ObjectDoesNotExist, Bookmark.objects.get, **bookmark)

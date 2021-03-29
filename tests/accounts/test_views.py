@@ -7,8 +7,10 @@ class TestViews(TestCase):
 
 
     def setUp(self):
-        self.user = User.objects.create(email='test@user.com')
-        self.user.set_password('123')
+        self.username = 'test@user.com'
+        self.password = 'veab0toox*KASS.wrik'
+        self.user = User.objects.create(email=self.username)
+        self.user.set_password(self.password)
         self.user.save()
 
 
@@ -17,6 +19,14 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'auth_form.html')
+
+
+    def test_signup_authenticated_redirect(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('signup'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse('account'))
 
 
     def test_signup_post(self):
@@ -43,13 +53,21 @@ class TestViews(TestCase):
 
     def test_login_view_post(self):
         form_data = {
-            'username': 'test@user.com',
-            'password': '123',
+            'username': self.username,
+            'password': self.password,
         }
         response = self.client.post(reverse('login'), form_data)
 
         self.assertEquals(response.status_code, 302)
         self.assertRedirects(response, reverse('index'))
+
+
+    def test_login_authenticated_redirect(self):
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('login'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse('account'))
 
 
     def test_account(self):
@@ -62,7 +80,6 @@ class TestViews(TestCase):
     def test_account_authenticated(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse('account'))
-        self.client.logout()
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'account.html')
