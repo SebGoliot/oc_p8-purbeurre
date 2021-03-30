@@ -130,5 +130,6 @@ nutella/migrations/
 accounts/migrations/
 
 reset_db.bat
-
 test.bat
+
+static/

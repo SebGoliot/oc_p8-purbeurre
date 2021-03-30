@@ -9,8 +9,14 @@ class Command(BaseCommand):
 
     _OFF_API_ENDPOINT = "https://fr.openfoodfacts.org/cgi/search.pl"
 
+    def add_arguments(self, parser):
+
+        parser.add_argument('limit', type=int, nargs='?', default=250)
+
 
     def handle(self, *args, **options):
+
+        limit = options['limit']
 
         if categories := self._get_categories():
             n_categories = len(categories)
@@ -20,7 +26,7 @@ class Command(BaseCommand):
                 self.stdout.write(
                     f"Updating category {i+1}/{n_categories}: {category.name}"
                     )
-                items = self._get_category_from_api(category.name)
+                items = self._get_category_from_api(category.name, limit)
                 self._store_products(items, category)
 
 
