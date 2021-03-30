@@ -36,21 +36,24 @@ def signup(request):
 
 
 def login_view(request):
-    """ View handling the login form rendering
+    """ View handling the login form rendering and the user authentication
     """
 
     if request.user.is_authenticated:
         return redirect('account')
 
     if request.method == 'POST':
-        email = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(email=email, password=password)
-        if user is not None and user.is_active:
-            login(request, user)
-            return redirect('index')
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            email = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(email=email, password=password)
+            if user is not None and user.is_active:
+                login(request, user)
+                return redirect('account')
+    else:
+        form = LoginForm()
 
-    form = LoginForm()
     ctx = {
         'form': form,
         'form_title': 'Connexion',

@@ -79,7 +79,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertIsInstance(response.wsgi_request.user, CustomUser)
         self.assertEquals(str(response.wsgi_request.user), self.username)
-        self.assertRedirects(response, reverse('index'))
+        self.assertRedirects(response, reverse('account'))
 
 
     def test_login_authenticated(self):

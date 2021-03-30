@@ -7,6 +7,9 @@ from .models import CustomUser
 class UserCreationForm(forms.ModelForm):
     """ The Form used in user registration
     """
+    required_css_class = "required"
+    error_css_class = "error"
+
     first_name = forms.CharField(
         label='Prénom',
         widget=forms.TextInput(
@@ -60,12 +63,18 @@ class UserCreationForm(forms.ModelForm):
         confirm_password = cleaned_data.get("password2")
 
         if password != confirm_password:
-            raise forms.ValidationError("The passwords doesn't match")
+            UserCreationForm.add_error(self, 'password1',
+                forms.ValidationError(
+                    "Les mots de passe ne correspondent pas !"))
+
 
 
 class LoginForm(AuthenticationForm):
     """ The form used in user login
     """
+    required_css_class = "required"
+    error_css_class = "error"
+
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
 
