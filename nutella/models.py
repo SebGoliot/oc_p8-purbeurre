@@ -3,7 +3,8 @@ from accounts.models import CustomUser
 
 
 class Category(models.Model):
-    """Category model used to group products"""
+    """ Category model used to group products
+    """
 
     name = models.TextField()
 
@@ -12,7 +13,8 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    """Product model for the products scrapped from the OpenFoodFacts API"""
+    """ Product model for the products scrapped from the OpenFoodFacts API
+    """
 
     code = models.PositiveBigIntegerField(primary_key=True)
     name = models.TextField()
@@ -32,7 +34,8 @@ class Product(models.Model):
 
 
 class Bookmark(models.Model):
-    """Bookmarks associative table"""
+    """ Bookmarks associative table
+    """
 
     user = models.ForeignKey(
             CustomUser, on_delete=models.CASCADE, related_name='user')

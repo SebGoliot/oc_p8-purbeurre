@@ -5,7 +5,8 @@ from .models import CustomUser
 
 
 class UserCreationForm(forms.ModelForm):
-
+    """ The Form used in user registration
+    """
     first_name = forms.CharField(
         label='Prénom',
         widget=forms.TextInput(
@@ -63,6 +64,8 @@ class UserCreationForm(forms.ModelForm):
 
 
 class LoginForm(AuthenticationForm):
+    """ The form used in user login
+    """
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
 

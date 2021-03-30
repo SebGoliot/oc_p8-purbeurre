@@ -4,13 +4,19 @@ from django.core.exceptions import ObjectDoesNotExist
 from nutella.models import Product, Bookmark
 
 def index(request):
+    """ Index view, rendering the index.html template
+    """
     return render(request, 'index.html')
 
 def legal(request):
+    """ Legal view, rendering the legal.html template
+    """
     return render(request, 'legal.html')
 
 
 def product(request, product_id):
+    """ Product view, gets a product and renders the product.html template
+    """
 
     product = Product.objects.get(code=product_id)
 
@@ -51,11 +57,17 @@ def search(request):
 
 
 def user_products(request): #TODO this
+    """ User products view, rendering the bookmarks.html template with the
+    products saved by the user
+    """
     return render(request, 'index.html')
 
 
 def _get_substitutes_from_search( search, user
 ) -> "tuple[Product,list[dict]] | tuple[None,None]":
+    """ This method retireves and returns the relevant products from a search
+    query, and marks the products already saved by the user
+    """
 
     if product := Product.objects.filter(name__icontains=search).first():
         cat = product.category.first()
@@ -87,7 +99,9 @@ def _get_substitutes_from_search( search, user
 
 
 def bookmark(request, product_id):
-    
+    """ Bookmark view, used as an AJAX route to handle adding and removing
+    bookmarks
+    """
     bookmark_state = None
     if request.method == 'POST':
         user = request.user

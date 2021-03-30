@@ -6,14 +6,16 @@ from nutella.models import Category, Product
 from accounts.models import CustomUser as CustomUser
 
 class TestViews(TestCase):
+    """ Those tests checks the behaviour of the nutella.views methods
+    """
 
 
     def setUp(self):
-        
+        """Tests setup
+        """
         category = Category.objects.create(
             name = 'test_category'
         )
-
         product = Product.objects.create(
             code = 42,
             name = 'test_name',
@@ -37,6 +39,8 @@ class TestViews(TestCase):
 
 
     def test_index(self):
+        """ This test checks if the index view behaves as expected
+        """
         response = self.client.get(reverse('index'))
 
         self.assertEquals(response.status_code, 200)
@@ -44,6 +48,8 @@ class TestViews(TestCase):
 
 
     def test_legal(self):
+        """ This test checks if the legal view behaves as expected
+        """
         response = self.client.get(reverse('legal'))
 
         self.assertEquals(response.status_code, 200)
@@ -51,6 +57,8 @@ class TestViews(TestCase):
 
 
     def test_product(self):
+        """ This test checks if the product view behaves as expected
+        """
         response = self.client.get(reverse('product', args=[42]))
 
         self.assertEquals(response.status_code, 200)
@@ -81,6 +89,9 @@ class TestViews(TestCase):
 
 
     def test_search_fail(self):
+        """ This test checks if the search view behaves as expected when no
+        products are found
+        """
         response = self.client.get(reverse('search'), {'query': 'fail'})
 
         self.assertEquals(response.status_code, 200)
@@ -92,6 +103,9 @@ class TestViews(TestCase):
 
 
     def test_search_logged_user(self):
+        """ This test checks if the search view behaves as expected with an
+        authenticated user
+        """
         self.client.login(**{
             'email': self.username,
             'password': self.password
@@ -103,6 +117,8 @@ class TestViews(TestCase):
 
 
     def test_user_products(self):
+        """ This test checks if the products view behaves as expected
+        """
         response = self.client.get(reverse('user_products'))
 
         self.assertEquals(response.status_code, 200)
@@ -110,18 +126,27 @@ class TestViews(TestCase):
 
 
     def test_bookmark_403(self):
+        """ This test checks if the bookmark view POST method returns a 403 when
+        no users are authenticated
+        """
         response = self.client.post(reverse('bookmark', args=[42]))
 
         self.assertEquals(response.status_code, 403)
 
 
     def test_bookmark_404(self):
+        """ This test checks if the product view GET method returns a 404 when
+        no users are authenticated
+        """
         response = self.client.get(reverse('bookmark', args=[42]))
 
         self.assertEquals(response.status_code, 404)
 
 
     def test_bookmark_save(self):
+        """ This test checks if the product view POST method saves the bookmark
+        if a user is authenticated and the bookmark doesn't exist yet
+        """
         self.client.login(**{
             'email': self.username,
             'password': self.password
@@ -137,6 +162,9 @@ class TestViews(TestCase):
 
 
     def test_bookmark_delete(self):
+        """ This test checks if the product view POST method deletes the
+        bookmark if a user is authenticated and the bookmark already exist
+        """
         self.client.login(**{
             'email': self.username,
             'password': self.password

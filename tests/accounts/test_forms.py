@@ -3,8 +3,12 @@ from accounts.forms import UserCreationForm, LoginForm
 from accounts.models import CustomUser
 
 class TestUserCreationForm(TestCase):
+    """ Those tests checks the behaviour of the accounts.forms UserCreationForm
+    """
 
     def test_user_creation_valid_data(self):
+        """ This test checks if the form can be validated
+        """
         form = UserCreationForm(data={
             'first_name': 'test',
             'last_name': 'user',
@@ -15,6 +19,8 @@ class TestUserCreationForm(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_user_creation_invalid_mail(self):
+        """ This test checks if the form can detect invalid mail
+        """
         form = UserCreationForm(data={
             'first_name': 'test',
             'last_name': 'user',
@@ -25,6 +31,8 @@ class TestUserCreationForm(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_user_creation_invalid_passwords(self):
+        """ This test checks if the form can detect non-matching passwords
+        """
         form = UserCreationForm(data={
             'first_name': 'test',
             'last_name': 'user',
@@ -35,6 +43,8 @@ class TestUserCreationForm(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_user_creation_missing_data(self):
+        """ This test checks if the form can detect incomplete data
+        """
         form = UserCreationForm(data={
             'first_name': 'test',
             'last_name': 'user',
@@ -44,6 +54,8 @@ class TestUserCreationForm(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_user_creation_no_data(self):
+        """ This test checks if the form can detect empty data
+        """
         form = UserCreationForm(data={})
         self.assertFalse(form.is_valid())
 

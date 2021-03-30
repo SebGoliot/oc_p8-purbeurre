@@ -5,8 +5,14 @@ from accounts.models import CustomUser
 
 
 class TestForms(StaticLiveServerTestCase):
+    """ Those tests checks the behaviour of the website from a user's perspective
+    This file is dedicated to the forms
+    """
+
 
     def setUp(self) -> None:
+        """Tests setup
+        """
         self.firstname = 'John'
         self.lastname = 'Doe'
         self.email = 'jdoe@gmail.com'
@@ -18,6 +24,8 @@ class TestForms(StaticLiveServerTestCase):
 
 
     def test_signup_form(self):
+        """ This test checks the signup form behaviour
+        """
 
         self.selenium.get(f"{self.live_server_url}/signup/")
 
@@ -42,6 +50,8 @@ class TestForms(StaticLiveServerTestCase):
 
 
     def test_login_form(self):
+        """ This test checks the login form behaviour
+        """
 
         self.user = CustomUser.objects.create(
             email=self.email, first_name=self.firstname)

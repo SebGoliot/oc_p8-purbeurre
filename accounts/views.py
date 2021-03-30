@@ -6,7 +6,8 @@ from django.urls import reverse
 
 
 def signup(request):
-    """ View handling the registration form rendering """
+    """ View handling the registration form rendering
+    """
 
     if request.user.is_authenticated:
         return redirect('account')
@@ -35,7 +36,8 @@ def signup(request):
 
 
 def login_view(request):
-    """ View handling the login form rendering """
+    """ View handling the login form rendering
+    """
 
     if request.user.is_authenticated:
         return redirect('account')
@@ -61,7 +63,8 @@ def login_view(request):
 
 
 def account(request):
-    """ View rendering the user account """
+    """ View rendering the user account
+    """
     if request.user.is_authenticated:
         ctx = {
             'username': request.user.first_name,
@@ -73,5 +76,7 @@ def account(request):
 
 
 def logout_view(request):
+    """ View handling the user logout
+    """
     logout(request)
     return redirect('index')

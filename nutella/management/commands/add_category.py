@@ -34,6 +34,14 @@ class Command(BaseCommand):
 
 
     def _name_is_available(self, category_name:str) -> bool:
+        """Checks if the category_name is available
+
+        Args:
+            category_name (str): The name of the category to check
+
+        Returns:
+            bool: Returns True if the name is avalable, else False
+        """
         try:
             free = not Category.objects.filter(name = category_name).exists()
         except OperationalError as err:

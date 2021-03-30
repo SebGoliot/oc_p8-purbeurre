@@ -4,9 +4,13 @@ from nutella.views import *
 from accounts.models import CustomUser
 
 class TestViews(TestCase):
+    """ Those tests checks the behaviour of the accounts.views methods
+    """
 
 
     def setUp(self):
+        """ Tests setup
+        """
         self.username = 'test@user.com'
         self.password = 'veab0toox*KASS.wrik'
         self.user = CustomUser.objects.create(email=self.username)
@@ -15,6 +19,8 @@ class TestViews(TestCase):
 
 
     def test_signup(self):
+        """ This test checks if the signup view behaves as expected
+        """
         response = self.client.get(reverse('signup'))
 
         self.assertEquals(response.status_code, 200)
@@ -22,6 +28,9 @@ class TestViews(TestCase):
 
 
     def test_signup_authenticated_redirect(self):
+        """ This test checks if the signup view behaves as expected if the user
+        is already authenticated
+        """
         self.client.force_login(self.user)
         response = self.client.get(reverse('signup'))
 
@@ -30,6 +39,9 @@ class TestViews(TestCase):
 
 
     def test_signup_post(self):
+        """ This test checks if the signup view's POST creates a user if proper
+        form data is sent though it
+        """
         form_data = {
             'first_name': 'test',
             'last_name': 'user',
@@ -46,6 +58,8 @@ class TestViews(TestCase):
 
 
     def test_login_view(self):
+        """ This test checks if the login view behaves as expected
+        """
         response = self.client.get(reverse('login'))
 
         self.assertEquals(response.status_code, 200)
@@ -53,6 +67,9 @@ class TestViews(TestCase):
 
 
     def test_login_view_post(self):
+        """ This test checks if the login view's POST behaves as expected and
+        provides a good authenticated user
+        """
         form_data = {
             'username': self.username,
             'password': self.password,
@@ -65,7 +82,10 @@ class TestViews(TestCase):
         self.assertRedirects(response, reverse('index'))
 
 
-    def test_login_authenticated_redirect(self):
+    def test_login_authenticated(self):
+        """ This test checks if the login view behaves as expected if the user
+        is already authenticated
+        """
         self.client.force_login(self.user)
         response = self.client.get(reverse('login'))
 
@@ -73,14 +93,19 @@ class TestViews(TestCase):
         self.assertRedirects(response, reverse('account'))
 
 
-    def test_account(self):
+    def test_account_not_authenticated(self):
+        """ This test checks if the account view behaves as expected if the user
+        is not authenticated
+        """
         response = self.client.get(reverse('account'))
 
         self.assertEquals(response.status_code, 302)
         self.assertRedirects(response, reverse('login'))
 
 
-    def test_account_authenticated(self):
+    def test_account(self):
+        """ This test checks if the account view behaves as expected
+        """
         self.client.force_login(self.user)
         response = self.client.get(reverse('account'))
 
@@ -89,6 +114,8 @@ class TestViews(TestCase):
 
 
     def test_logout_view(self):
+        """ This test checks if the logout behaves as expected
+        """
         self.client.force_login(self.user)
         response = self.client.get(reverse('logout'))
 
