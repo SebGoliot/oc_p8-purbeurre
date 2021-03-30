@@ -13,7 +13,7 @@
             <ul class="navbar-nav ml-auto my-2 my-lg-0 align-middle">
 
                 <form class="form-inline" action="{% url 'search' %}" method="get">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un aliment..." aria-label="Recherche" name='query'>
+                    <input id="nav_search_field" class="form-control mr-sm-2" type="search" placeholder="Rechercher un aliment..." aria-label="Recherche" name='query'>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
                 </form>
                 {% if user.is_authenticated %}
