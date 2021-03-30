@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from nutella.views import *
 from nutella.models import Category, Product
-from accounts.models import CustomUser as User
+from accounts.models import CustomUser as CustomUser
 
 class TestViews(TestCase):
 
@@ -31,7 +31,7 @@ class TestViews(TestCase):
         self.username = 'test@user.com'
         self.password = 'veab0toox*KASS.wrik'
 
-        self.user = User.objects.create(email=self.username)
+        self.user = CustomUser.objects.create(email=self.username)
         self.user.set_password(self.password)
         self.user.save()
 
@@ -58,10 +58,26 @@ class TestViews(TestCase):
 
 
     def test_search(self):
-        response = self.client.get(reverse('search'), {'query': 'test_name'})
+        """ This test checks if the search view behaves as expected when a
+        product is found
+        """
+        response = self.client.get(reverse('search'), {'query': 'test'})
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'search.html')
+        self.assertInHTML(
+            "<h2>Vous pouvez remplacer cet aliment par :</h2>",
+            response.content.decode())
+
+
+    def test_search_no_query(self):
+        """ This test checks if the search view behaves as expected when no
+        products are found
+        """
+        response = self.client.get(reverse('search'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse('index'))
 
 
     def test_search_fail(self):
@@ -69,6 +85,10 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'search.html')
+        self.assertInHTML(
+            "<h2>Oups, aucun substitut n'a été trouvé 😕</h2>",
+            response.content.decode()
+            )
 
 
     def test_search_logged_user(self):

@@ -1,7 +1,8 @@
 from django.test import TestCase
 from accounts.forms import UserCreationForm, LoginForm
+from accounts.models import CustomUser
 
-class TestForms(TestCase):
+class TestUserCreationForm(TestCase):
 
     def test_user_creation_valid_data(self):
         form = UserCreationForm(data={
@@ -48,41 +49,48 @@ class TestForms(TestCase):
 
 
 
-    # def test_login_valid_data(self):
-    #     form = LoginForm(data={
-    #         'username': 'user@test.com',
-    #         'password': 'test123',
-    #     })
-    #     self.assertTrue(form.is_valid())
+class TestLoginForm(TestCase):
+    """ Those tests checks the behaviour of the accounts.forms LoginForm
+    """
 
-    # def test_login_invalid_mail(self):
-    #     form = LoginForm(data={
-    #         'username': 'usertest.com',
-    #         'password': 'test123',
-    #     })
-    #     self.assertFalse(form.is_valid())
-
-    # def test_login_missing_data(self):
-    #     form = LoginForm(data={
-    #         'username': 'user@test.com',
-    #     })
-    #     self.assertFalse(form.is_valid())
-
-    # def test_login_no_data(self):
-    #     form = LoginForm(data={})
-    #     self.assertFalse(form.is_valid())
+    def setUp(self):
+        """ Tests setup
+        """
+        self.username = 'test@user.com'
+        self.password = 'veab0toox*KASS.wrik'
+        self.user = CustomUser.objects.create(email=self.username)
+        self.user.set_password(self.password)
+        self.user.save()
 
 
+    def test_login_valid_data(self):
+        """ This test checks if the form can be validated
+        """
+        form = LoginForm(data={
+            'username': self.username,
+            'password': self.password,
+        })
+        self.assertTrue(form.is_valid())
 
+    def test_login_invalid_mail(self):
+        """ This test checks if the form can detect invalid mail
+        """
+        form = LoginForm(data={
+            'username': 'usertest.com',
+            'password': self.password,
+        })
+        self.assertFalse(form.is_valid())
 
+    def test_login_missing_data(self):
+        """ This test checks if the form can detect incomplete data
+        """
+        form = LoginForm(data={
+            'username': self.username,
+        })
+        self.assertFalse(form.is_valid())
 
-# class UserCreationForm(forms.ModelForm):
-#     first_name = forms.CharField(
-#     last_name = forms.CharField(
-#     email = forms.EmailField(
-#     password1 = forms.CharField(
-#     password2 = forms.CharField(
-#     def save(self, commit=True):
-# class LoginForm(AuthenticationForm):
-#     username = forms.EmailField(
-#     password = forms.CharField(
+    def test_login_no_data(self):
+        """ This test checks if the form can detect empty data
+        """
+        form = LoginForm(data={})
+        self.assertFalse(form.is_valid())

@@ -1,5 +1,5 @@
 from django.http.response import Http404, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.core.exceptions import ObjectDoesNotExist
 from nutella.models import Product, Bookmark
 
@@ -30,19 +30,24 @@ def product(request, product_id):
 
 
 def search(request):
-    query = request.GET.get('query')
-    if request.user.is_authenticated:
-        user = request.user
-    else:
-        user = None
+    """ Search view, rendering the search.html template with the products found
+    with the search query
+    """
+    if query := request.GET.get('query'):
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
 
-    product, substitutes = _get_substitutes_from_search(query, user)
-    ctx = {
-        'substitutes': substitutes,
-        'query': query,
-        'query_product': product,
-    }
-    return render(request, 'search.html', ctx)
+        product, substitutes = _get_substitutes_from_search(query, user)
+        ctx = {
+            'substitutes': substitutes,
+            'query': query,
+            'query_product': product,
+        }
+        return render(request, 'search.html', ctx)
+    else:
+        return redirect('index')
 
 
 def user_products(request): #TODO this

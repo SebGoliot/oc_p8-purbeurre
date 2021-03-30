@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from nutella.views import *
-from accounts.models import CustomUser as User
+from accounts.models import CustomUser
 
 class TestViews(TestCase):
 
@@ -9,7 +9,7 @@ class TestViews(TestCase):
     def setUp(self):
         self.username = 'test@user.com'
         self.password = 'veab0toox*KASS.wrik'
-        self.user = User.objects.create(email=self.username)
+        self.user = CustomUser.objects.create(email=self.username)
         self.user.set_password(self.password)
         self.user.save()
 
@@ -41,7 +41,8 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertRedirects(response, reverse('index'))
-        self.assertIsInstance(User.objects.get(email='form@test.com'), User)
+        self.assertIsInstance(
+            CustomUser.objects.get(email='form@test.com'), CustomUser)
 
 
     def test_login_view(self):
@@ -59,6 +60,8 @@ class TestViews(TestCase):
         response = self.client.post(reverse('login'), form_data)
 
         self.assertEquals(response.status_code, 302)
+        self.assertIsInstance(response.wsgi_request.user, CustomUser)
+        self.assertEquals(str(response.wsgi_request.user), self.username)
         self.assertRedirects(response, reverse('index'))
 
 
@@ -87,6 +90,16 @@ class TestViews(TestCase):
 
     def test_logout_view(self):
         self.client.force_login(self.user)
+        response = self.client.get(reverse('logout'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse('index'))
+
+
+    def test_logout_view_not_authenticated(self):
+        """ This test checks if the logout behaves as expected if the user is
+        not authenticated
+        """
         response = self.client.get(reverse('logout'))
 
         self.assertEquals(response.status_code, 302)

@@ -11,7 +11,7 @@ class TestModels(TestCase):
     def test_user_str(self):
         user = CustomUser.objects.create(email = self.email)
 
-        self.assertEqual(str(user), 'test@user.com')
+        self.assertEqual(str(user), self.email)
 
 
     def test_manager_create_user_no_email(self):
