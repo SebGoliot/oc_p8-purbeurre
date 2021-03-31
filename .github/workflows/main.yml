@@ -22,7 +22,11 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install codecov
+        pip install -r test_requirements.txt
+        
+    - name: Make migrations
+      run: |
+        python manage.py makemigrations accounts nutella
 
     - name: Run tests and codecov
       env:
