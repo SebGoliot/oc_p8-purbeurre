@@ -1,6 +1,7 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from accounts.models import CustomUser
 
 
@@ -18,7 +19,10 @@ class TestForms(StaticLiveServerTestCase):
         self.email = 'jdoe@gmail.com'
         self.password = 'veab0toox*KASS.wrik'
 
-        self.selenium = webdriver.Chrome()
+        chrome_options = Options()  
+        chrome_options.add_argument("--headless")
+
+        self.selenium = webdriver.Chrome(chrome_options=chrome_options)
         self.selenium.implicitly_wait(30)
         self.selenium.set_page_load_timeout(30)
 

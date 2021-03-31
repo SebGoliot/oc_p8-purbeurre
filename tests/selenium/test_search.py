@@ -1,7 +1,7 @@
 from django.test.testcases import LiveServerTestCase
 from selenium import webdriver
-import selenium
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from accounts.models import CustomUser
 
 from nutella.management.commands import add_category, update_db
@@ -24,7 +24,10 @@ class TestForms(LiveServerTestCase):
         self.user.set_password(self.password)
         self.user.save()
 
-        self.selenium = webdriver.Chrome()
+        chrome_options = Options()  
+        chrome_options.add_argument("--headless")
+
+        self.selenium = webdriver.Chrome(chrome_options=chrome_options)
         self.selenium.implicitly_wait(30)
         self.selenium.set_page_load_timeout(30)
         self.selenium.set_window_size(1280, 720)

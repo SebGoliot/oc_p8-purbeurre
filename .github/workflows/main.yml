@@ -25,6 +25,8 @@ jobs:
         pip install codecov
 
     - name: Run tests and codecov
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
-        coverage run manage.py tests
+        coverage run manage.py test
         codecov -t ${{ secrets.CODECOV_TOKEN }}
