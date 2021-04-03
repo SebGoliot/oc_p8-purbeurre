@@ -65,7 +65,7 @@ class UserCreationForm(forms.ModelForm):
         if password != confirm_password:
             UserCreationForm.add_error(self, 'password1',
                 forms.ValidationError(
-                    "Les mots de passe ne correspondent pas !"))
+                    "Les mots de passe ne correspondent pas."))
 
 
 

@@ -38,6 +38,10 @@ class Bookmark(models.Model):
     """
 
     user = models.ForeignKey(
-            CustomUser, on_delete=models.CASCADE, related_name='user')
+            CustomUser, on_delete=models.CASCADE, related_name='bookmarks')
     product = models.ForeignKey(
-            Product, on_delete=models.CASCADE, related_name='product')
+            Product, on_delete=models.CASCADE, related_name='bookmarks')
+    old_product = models.ForeignKey(
+            Product, on_delete=models.CASCADE, related_name='substitutes')
+    created_at = models.DateTimeField(auto_now_add=True)
+
