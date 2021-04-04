@@ -45,5 +45,5 @@ class TestUrls(SimpleTestCase):
     def test_bookmark_url_resolves(self):
         """ Checks if the bookmark url resolves
         """
-        url = reverse('bookmark', args=[42])
+        url = reverse('bookmark')
         self.assertEquals(resolve(url).func, bookmark)

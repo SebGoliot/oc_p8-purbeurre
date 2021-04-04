@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from nutella.views import *
 from nutella.models import Category, Product
 from accounts.models import CustomUser as CustomUser
+import json
 
 class TestViews(TestCase):
     """ Those tests checks the behaviour of the nutella.views methods
@@ -117,19 +118,34 @@ class TestViews(TestCase):
 
 
     def test_user_products(self):
-        """ This test checks if the products view behaves as expected
+        """ This test checks if the products view behaves as expected with an
+        authenticated user
         """
+        self.client.login(**{
+            'email': self.username,
+            'password': self.password
+        })
         response = self.client.get(reverse('user_products'))
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'index.html')
+        self.assertTemplateUsed(response, 'bookmarks.html')
+
+
+    def test_user_products_non_authenticated(self):
+        """ This test checks if the products view behaves as expected when the
+        user is not authenticated
+        """
+        response = self.client.get(reverse('user_products'))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse('login')+'?next=/my-products/')
 
 
     def test_bookmark_403(self):
         """ This test checks if the bookmark view POST method returns a 403 when
         no users are authenticated
         """
-        response = self.client.post(reverse('bookmark', args=[42]))
+        response = self.client.post(reverse('bookmark'))
 
         self.assertEquals(response.status_code, 403)
 
@@ -138,7 +154,7 @@ class TestViews(TestCase):
         """ This test checks if the product view GET method returns a 404 when
         no users are authenticated
         """
-        response = self.client.get(reverse('bookmark', args=[42]))
+        response = self.client.get(reverse('bookmark'))
 
         self.assertEquals(response.status_code, 404)
 
@@ -151,13 +167,17 @@ class TestViews(TestCase):
             'email': self.username,
             'password': self.password
         })
-        response = self.client.post(reverse('bookmark', args=[42]))
-        self.assertEquals(response.status_code, 200)
-
+        response = self.client.post(
+            reverse('bookmark'),
+            data={'product_id': 42, 'old_product_id': 42},
+            content_type='application/json'
+            )
         bookmark = Bookmark.objects.get(
             user = self.user,
             product = Product.objects.get(code=42)
             )
+
+        self.assertEquals(response.status_code, 200)
         self.assertIsInstance(bookmark, Bookmark)
 
 
@@ -171,10 +191,16 @@ class TestViews(TestCase):
         })
         bookmark = {
             'user': self.user,
-            'product': Product.objects.get(code=42)
+            'product': Product.objects.get(code=42),
+            'old_product': Product.objects.get(code=42)
         }
         Bookmark.objects.create(**bookmark)
-        response = self.client.post(reverse('bookmark', args=[42]))
+
+        response = self.client.post(
+            reverse('bookmark'),
+            data={'product_id': 42, 'old_product_id': 42},
+            content_type='application/json'
+            )
 
         self.assertEquals(response.status_code, 200)
         self.assertRaises(ObjectDoesNotExist, Bookmark.objects.get, **bookmark)

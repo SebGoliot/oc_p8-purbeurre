@@ -29,5 +29,5 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         python manage.py makemigrations accounts nutella
-        coverage run manage.py test
+        coverage run --source='.' manage.py test
         codecov -t ${{ secrets.CODECOV_TOKEN }}
