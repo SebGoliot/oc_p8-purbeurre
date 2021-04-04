@@ -1,0 +1,26 @@
+<div class="col-lg-4 col-md-6 product-tile">
+    <a href="/product/{{ code }}">
+      <img src="{{ image_url }}" alt="{{ name }}">
+      <h4>{{ name }}</h4>
+    </a>
+    <h3>{{ nutriscore|title }}</h3>
+    <a href="javascript:void(0);"
+    onclick="bookmark_product({{old_product_code}}, {{code}}, '{{csrf_token}}');"
+    class="bookmark-link" id="{{ code }}">
+
+      <i class="fas fa-spinner fa-pulse text-primary js-update" style="display: none;"></i>
+
+      <span class="is-bookmark"
+        {% if not is_bookmark %} style="display: none;" {% endif %}>
+        <i class="fas fa-save text-primary"></i>
+        Retirer le produit
+      </span>
+
+      <span class="is-not-bookmark"
+        {% if is_bookmark %} style="display: none;" {% endif %}>
+        <i class="far fa-save text-primary"></i>
+        Sauvegarder le produit
+      </span>
+
+    </a>
+  </div>

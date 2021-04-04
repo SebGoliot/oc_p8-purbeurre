@@ -7,5 +7,5 @@ urlpatterns = [
     path('product/<int:product_id>', product, name='product'),
     path('my-products/', user_products, name='user_products'),
     path('legal', legal, name='legal'),
-    path('bookmark/<int:product_id>', bookmark, name='bookmark'),
+    path('bookmark/', bookmark, name='bookmark'),
 ]

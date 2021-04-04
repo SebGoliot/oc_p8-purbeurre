@@ -1,9 +1,15 @@
 
-function bookmark_product(product_id, csrf){
+function bookmark_product(old_product_id, product_id, csrf){
     $.ajax({
         headers: {'X-CSRFTOKEN': csrf},
         type: "post",
-        url: "/bookmark/"+product_id,
+        url: "/bookmark/",
+        contentType: 'application/json',
+        dataType:'json',
+        data: JSON.stringify({
+            'old_product_id': old_product_id,
+            'product_id': product_id,
+        }),
         beforeSend: bookmark_state(product_id, 'js-update'),
         success: function(answer) {
             bookmark_state(product_id, answer.bookmark_state);
