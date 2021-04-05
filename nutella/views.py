@@ -64,8 +64,8 @@ def _get_substitutes_from_search( search, user
     query, and marks the products already saved by the user
     """
 
-    if product := Product.objects.filter(name__icontains=search).first():
-        cat = product.category.first()
+    if old_product := Product.objects.filter(name__icontains=search).first():
+        cat = old_product.category.first()
         products = Product.objects.filter(category=cat).order_by('nutriscore')
         # FIXME flawed logic ? Search gets the first product containing the
         # search string, returns all the products found in the first category
@@ -86,11 +86,12 @@ def _get_substitutes_from_search( search, user
                     'nutriscore': product.nutriscore,
                     'product_url': product.product_url,
                     'image_url': product.image_url,
-                    'is_bookmark': product in user_bookmarks
+                    'is_bookmark': product in user_bookmarks,
+                    'old_product_code': old_product.code,
                 }
             )
 
-        return (product, substitutes)
+        return (old_product, substitutes)
     return (None, None)
 
 
