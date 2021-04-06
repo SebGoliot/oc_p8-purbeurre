@@ -14,7 +14,9 @@ Plusieurs fonctionnalités sont nécessaires pour la réalisation de ce projet:
 - Authentification de l’utilisateur : création de compte en entrant un mail et un mot de passe, sans possibilité de changer son mot de passe pour le moment.
 
 ## 3. Pré-requis
-Python >= 3.8  
+Python >= 3.9 (
+    Utilisation de `|=` sur des `dict`: 
+    [PEP 584](https://www.python.org/dev/peps/pep-0584/))  
 Un serveur de base de données Postgres  
 - Vous pouvez utiliser le fichier docker-compose.yml fourni pour lancer une instance de Postgres
 

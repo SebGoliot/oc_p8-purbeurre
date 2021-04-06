@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from accounts.models import CustomUser
 
-from nutella.management.commands import add_category, update_db
+from nutella.management.commands import import_products
 
 
 class TestForms(LiveServerTestCase):
@@ -32,9 +32,7 @@ class TestForms(LiveServerTestCase):
         self.selenium.set_page_load_timeout(30)
         self.selenium.set_window_size(1280, 720)
 
-        add_category.Command().handle(**{
-            'category_name': ['pate', 'a', 'tartiner']})
-        update_db.Command().handle(**{'limit': 10})
+        import_products.Command().handle(**{'limit': 260})
         
 
     def test_search(self):
