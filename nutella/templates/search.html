@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load product_tile %}
 
 {% block content %}
 
@@ -26,9 +25,8 @@
   </div>
 
   <div class="row">
-
     {% for each in substitutes %}
-      {% product_tile each%}
+      {% include "product_tile.html" with product=each %}
     {% endfor %}
     </div>
 
