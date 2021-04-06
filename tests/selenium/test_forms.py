@@ -6,25 +6,28 @@ from accounts.models import CustomUser
 
 
 class TestForms(StaticLiveServerTestCase):
-    """ Those tests checks the behaviour of the website from a user's perspective
+    """ Those tests checks the behaviour of the website from a user's
+    perspective
     This file is dedicated to the forms
     """
 
 
-    def setUp(self) -> None:
-        """Tests setup
+    @classmethod
+    def setUpClass(cls) -> None:
+        """ Tests setup
         """
-        self.firstname = 'John'
-        self.lastname = 'Doe'
-        self.email = 'jdoe@gmail.com'
-        self.password = 'veab0toox*KASS.wrik'
+        super(TestForms, cls).setUpClass()
+        cls.firstname = 'John'
+        cls.lastname = 'Doe'
+        cls.email = 'jdoe@gmail.com'
+        cls.password = 'veab0toox*KASS.wrik'
 
         chrome_options = Options()  
         chrome_options.add_argument("--headless")
 
-        self.selenium = webdriver.Chrome(chrome_options=chrome_options)
-        self.selenium.implicitly_wait(30)
-        self.selenium.set_page_load_timeout(30)
+        cls.selenium = webdriver.Chrome(chrome_options=chrome_options)
+        cls.selenium.implicitly_wait(60)
+        cls.selenium.set_page_load_timeout(60)
 
 
     def test_signup_form(self):

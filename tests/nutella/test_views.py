@@ -11,9 +11,12 @@ class TestViews(TestCase):
     """
 
 
-    def setUp(self):
-        """Tests setup
+    @classmethod
+    def setUpClass(cls) -> None:
+        """ Tests setup
         """
+        super(TestViews, cls).setUpClass()
+        
         category = Category.objects.create(
             name = 'test_category'
         )
@@ -31,12 +34,12 @@ class TestViews(TestCase):
         product.category.add(category)
         product.save()
 
-        self.username = 'test@user.com'
-        self.password = 'veab0toox*KASS.wrik'
+        cls.username = 'test@user.com'
+        cls.password = 'veab0toox*KASS.wrik'
 
-        self.user = CustomUser.objects.create(email=self.username)
-        self.user.set_password(self.password)
-        self.user.save()
+        cls.user = CustomUser.objects.create(email=cls.username)
+        cls.user.set_password(cls.password)
+        cls.user.save()
 
 
     def test_index(self):
@@ -157,6 +160,44 @@ class TestViews(TestCase):
         response = self.client.get(reverse('bookmark'))
 
         self.assertEquals(response.status_code, 404)
+
+
+    def test_bookmark_malformed(self):
+        """ This test checks if the product view POST method returns a
+        HTTPResponseBAdRequest when the JSON payload is malformed
+        """
+        self.client.login(**{
+            'email': self.username,
+            'password': self.password
+        })
+        response = self.client.post(
+            reverse('bookmark'),
+            data="malformed request",
+            content_type='application/json'
+            )
+
+        self.assertEquals(response.status_code, 400)
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertIn('malformed', response.content.decode())
+
+
+    def test_bookmark_missing_values(self):
+        """ This test checks if the product view POST method returns a
+        HTTPResponseBAdRequest when the JSON payload is missing some values
+        """
+        self.client.login(**{
+            'email': self.username,
+            'password': self.password
+        })
+        response = self.client.post(
+            reverse('bookmark'),
+            data={'product_id': 42},
+            content_type='application/json'
+            )
+
+        self.assertEquals(response.status_code, 400)
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertIn('missing', response.content.decode())
 
 
     def test_bookmark_save(self):

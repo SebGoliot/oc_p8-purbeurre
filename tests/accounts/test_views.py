@@ -8,14 +8,17 @@ class TestViews(TestCase):
     """
 
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls) -> None:
         """ Tests setup
         """
-        self.username = 'test@user.com'
-        self.password = 'veab0toox*KASS.wrik'
-        self.user = CustomUser.objects.create(email=self.username)
-        self.user.set_password(self.password)
-        self.user.save()
+        super(TestViews, cls).setUpClass()
+        
+        cls.username = 'test@user.com'
+        cls.password = 'veab0toox*KASS.wrik'
+        cls.user = CustomUser.objects.create(email=cls.username)
+        cls.user.set_password(cls.password)
+        cls.user.save()
 
 
     def test_signup(self):

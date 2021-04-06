@@ -6,11 +6,13 @@ class TestModels(TestCase):
     """
 
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls) -> None:
         """ Tests setup
         """
-        self.email = 'test@user.com'
-        self.password = 'veab0toox*KASS.wrik'
+        super(TestModels, cls).setUpClass()
+        cls.email = 'test@user.com'
+        cls.password = 'veab0toox*KASS.wrik'
 
 
     def test_user_str(self):
