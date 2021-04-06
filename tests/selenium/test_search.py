@@ -37,7 +37,7 @@ class TestSearch(StaticLiveServerTestCase):
         cls.selenium.set_window_size(1280, 720)
         cls.wait = WebDriverWait(cls.selenium, 10)
 
-        import_products.Command().handle(**{'limit': 5})
+        import_products.Command().handle(**{'limit': 255})
 
 
     def test_search(self):

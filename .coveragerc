@@ -8,3 +8,4 @@ omit =
     nutella/migrations/*
     **/__init__.py
     tests/*
+    venv/*
