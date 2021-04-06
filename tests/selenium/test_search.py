@@ -2,6 +2,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
 from accounts.models import CustomUser
 
 from nutella.management.commands import import_products
@@ -34,6 +35,7 @@ class TestSearch(StaticLiveServerTestCase):
         cls.selenium.implicitly_wait(60)
         cls.selenium.set_page_load_timeout(60)
         cls.selenium.set_window_size(1280, 720)
+        cls.wait = WebDriverWait(cls.selenium, 10)
 
         import_products.Command().handle(**{'limit': 5})
 
@@ -116,6 +118,9 @@ class TestSearch(StaticLiveServerTestCase):
         # Save the bookmark
         bookmark = self.selenium.find_element_by_class_name('bookmark-link')
         bookmark.click()
+        # wait for AJAX to finish
+        self.wait.until( lambda driver: 
+            driver.execute_script('return jQuery.active') == 0)
 
         # Assert the bookmark is visible in the bookmarks page
         self.selenium.get(f"{self.live_server_url}/my-products/")
@@ -125,10 +130,13 @@ class TestSearch(StaticLiveServerTestCase):
         # Remove the bookmark
         bookmark = self.selenium.find_element_by_class_name('bookmark-link')
         bookmark.click()
+        # wait for AJAX to finish
+        self.wait.until( lambda driver: 
+            driver.execute_script('return jQuery.active') == 0)
+
 
         # Refresh and assert the bookmark is no more in the bookmarks page
         self.selenium.refresh()
-        #BUG: 1% of the tests fails because of this assertion failing
         self.assertInHTML(
             "<h2>Vous n'avez trouvé aucun substituts ? 😲</h2>",
             self.selenium.page_source)
