@@ -2,6 +2,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.ui import WebDriverWait
 from accounts.models import CustomUser
 
@@ -122,10 +123,10 @@ class TestSearch(StaticLiveServerTestCase):
         self.wait.until( lambda driver: 
             driver.execute_script('return jQuery.active') == 0)
 
-        # Assert the bookmark is visible in the bookmarks page
+        # Check the bookmark is visible in the bookmarks page
         self.selenium.get(f"{self.live_server_url}/my-products/")
         product_tile = self.selenium.find_element_by_class_name('product-tile')
-        self.assertIn(query, product_tile.text.lower())
+        self.assertIsInstance(product_tile, WebElement)
 
         # Remove the bookmark
         bookmark = self.selenium.find_element_by_class_name('bookmark-link')
