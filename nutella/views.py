@@ -1,8 +1,9 @@
-from django.http.response import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseServerError, JsonResponse
+from django.http.response import Http404, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.core.exceptions import ObjectDoesNotExist
 from nutella.models import Product, Bookmark
 from django.contrib.auth.decorators import login_required
+from collections import Counter
 import json
 
 def index(request):
@@ -65,10 +66,24 @@ def _get_substitutes_from_search( search, user
     """
 
     if old_product := Product.objects.filter(name__icontains=search).first():
-        cat = old_product.category.first()
-        products = Product.objects.filter(category=cat).order_by('nutriscore')
-        # FIXME flawed logic ? Search gets the first product containing the
-        # search string, returns all the products found in the first category
+        # retrieving all the products that shares a category with the query
+        categories = old_product.category.all()
+        products = []
+        for category in categories:
+            products += Product.objects.filter(category=category)
+
+        # getting the number of common categories shared
+        products_counted = Counter(products).most_common()
+        max_categories = products_counted[0][1]
+
+        # keeping only the products that shares the most categories
+        products = []
+        for each in products_counted:
+            if each[1] >= max_categories / 2:
+                products.append(each[0])
+
+        # ordering products by nutriscore
+        products.sort(key=lambda x: x.nutriscore)
 
         if user :
             user_bookmarks = Bookmark.objects.filter(user=user)
