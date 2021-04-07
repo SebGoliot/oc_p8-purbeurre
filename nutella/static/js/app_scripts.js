@@ -21,7 +21,7 @@ function bookmark_product(old_product_id, product_id, csrf){
 }
 
 function bookmark_state(product_id, state){
-    
+    // This function changes the visibility of the most relevant 
     var _product_id = '#' + product_id;
     var child_elts = $(_product_id).children();
     child_elts.css({'display': 'none'});
@@ -35,3 +35,8 @@ function bookmark_state(product_id, state){
     }
     child_elts.siblings(_classname).css({'display': 'inline'});
 }
+
+// Enable tooltips
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+  });
