@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 from pathlib import Path
 from os import environ as os_environ
 import sys
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -144,9 +145,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = Path.joinpath(BASE_DIR, 'static')
+STATIC_ROOT = Path.joinpath(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())

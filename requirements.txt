@@ -3,3 +3,5 @@ django-inline-svg >= 0.1.*
 requests >= 2.*
 psycopg2 >= 2.8.*           ; platform_system=='Windows'
 psycopg2-binary  >= 2.8.*   ; platform_system=='Linux'
+django-heroku >= 0.3.*
+gunicorn >= 20.1.*
