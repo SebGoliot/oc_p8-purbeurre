@@ -134,7 +134,7 @@ header.masthead {
 }
 
 .errorlist {
-    background-color: #d89e35;
+    background-color: var(--warning);
     font-size: 1.2em;
     border-radius: 1em;
     padding: 2px 8px;
