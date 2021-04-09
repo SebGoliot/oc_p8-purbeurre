@@ -84,7 +84,7 @@ class TestViews(TestCase):
 
     def test_search_no_query(self):
         """ This test checks if the search view behaves as expected when no
-        products are found
+        query is provided
         """
         response = self.client.get(reverse('search'))
 

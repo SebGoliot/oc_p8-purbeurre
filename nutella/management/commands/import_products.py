@@ -11,14 +11,17 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
 
-        parser.add_argument('limit', type=int, nargs='?', default=5000)
+        parser.add_argument('limit', type=int, nargs='?', default=500)
 
 
     def handle(self, *args, **options):
 
         limit = options['limit']
-        default_page_size = 250
-        page = 0   
+        default_page_size = 100
+        page = 0
+
+        self.stdout.write(
+            f"Importing {limit} products \nThis operation may take a while...")
 
         products = []
         categories = {}
@@ -102,22 +105,21 @@ class Command(BaseCommand):
     
     def _store_products(self, data:"list[dict]", categories:"dict"):
         """Saves a product to the db and its categories
+        Updates the product if it already exists
 
         Args:
             data (list): A list containing all the products to store
             data (dict): A dictionnary containing the products categories
         """
         for each in data:
-            try:
-                product = Product.objects.get(code=each['code'])
-            except ObjectDoesNotExist:
-                product = Product.objects.create(**each)
+            product = Product.objects.update_or_create(
+                            code=each['code'], defaults=each)[0]
 
-                if _categories := categories.get(each['code']):
-                    for category_name in _categories:
-                        category, created = Category.objects.get_or_create(
-                            name=category_name)
-                        if created:
-                            category.save()
-                        product.category.add(category)
-                    product.save()
+            if _categories := categories.get(each['code']):
+                for category_name in _categories:
+                    category, created = Category.objects.get_or_create(
+                        name=category_name)
+                    if created:
+                        category.save()
+                    product.category.add(category)
+                product.save()

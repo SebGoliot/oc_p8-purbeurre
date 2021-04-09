@@ -27,9 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os_environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not os_environ.get('DJANGO_PROD', 'False') == 'True'
+DEBUG = os_environ.get('ENV', 'DEBUG') != 'PRODUCTION'
 
-ALLOWED_HOSTS = ['nutella-pur-beurre.herokuapp.com']
+if DEBUG:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = ['nutella-pur-beurre.herokuapp.com']
 
 
 # Application definition
