@@ -1,49 +1,35 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'simple_layout.html' %}
 
-<header class="masthead">
-  <div class="container h-100 text-light">
-    <div
-      class="row h-100 align-items-center justify-content-center text-center"
-    >
-      <div class="container-titlehead d-flex">
-        <div class="row align-items-center justify-content-center text-center">
-          <div class="col-lg-10 align-self-end">
-            <h2 class="text-uppercase font-weight-bold">Mentions légales</h2>
-            <hr class="divider my-4" />
-          </div>
-          <div class="col-lg-10 align-self-baseline">
-            <p>
-              Icone
-              <a href="https://thenounproject.com/term/carrot/29691/">
-                Carrot</a
-              >
-              par
-              <a href="https://thenounproject.com/FabienJ/"> Fabien Jouin</a>
-            </p>
-            <p>
-              Photo
-              <a
-                href="https://unsplash.com/photos/k60JspcBwKE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-              >
-                Happiness time</a
-              >
-              par
-              <a
-                href="https://unsplash.com/@kawin?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-              >
-              Kawin Harasai</a
-              >
-            </p>
-            <hr class="divider my-4" />
-            <p>Site hébergé par <a href="https://heroku.com"> Heroku</a></p>
-            <p>Site développé par <a href="https://github.com/SebGoliot">SebGoliot</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+{% block title %}
+  Mentions légales  
+{% endblock title %}</h2>
 
-{% endblock %}
-Photo by <a href="https://unsplash.com/@kawin?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Kawin Harasai</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+{% block page_content %}
+
+<p>
+  Icone
+  <a href="https://thenounproject.com/term/carrot/29691/">
+    Carrot</a
+  >
+  par
+  <a href="https://thenounproject.com/FabienJ/"> Fabien Jouin</a>
+</p>
+<p>
+  Photo
+  <a
+    href="https://unsplash.com/photos/k60JspcBwKE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+  >
+    Happiness time</a
+  >
+  par
+  <a
+    href="https://unsplash.com/@kawin?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+  >
+  Kawin Harasai</a
+  >
+</p>
+<hr class="divider my-4" />
+<p>Site hébergé par <a href="https://heroku.com"> Heroku</a></p>
+<p>Site développé par <a href="https://github.com/SebGoliot">SebGoliot</a></p>
   
+{% endblock page_content %}
