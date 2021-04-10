@@ -1,5 +1,4 @@
 from django import forms
-from django.forms.utils import ErrorList
 from django.contrib.auth.forms import AuthenticationForm
 from .models import CustomUser
 

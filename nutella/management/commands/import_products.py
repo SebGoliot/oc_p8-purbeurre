@@ -1,9 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from nutella.models import Product, Category
-from django.db.utils import OperationalError
-from django.db.models.query import QuerySet
 import requests, json
-from django.core.exceptions import ObjectDoesNotExist
 
 class Command(BaseCommand):
 

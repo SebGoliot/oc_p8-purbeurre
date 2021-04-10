@@ -1,0 +1,7 @@
+coverage:
+  status:
+    project:
+      default:
+        branches: 
+          - main
+        informational: true
