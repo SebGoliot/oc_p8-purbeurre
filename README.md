@@ -34,14 +34,9 @@ Pour lancer l'application en debug, il suffit de:
     - Si vous souhaitez lancer les tests, vous devrez aussi installer les dépendances de test:  
       - `pip install -r test_requirements.txt`
 - Créer une variable d'environnement `SECRET_KEY` avec la clé secrète de Django
-- Lancer le serveur de base de données Postgres
-- Créer les migrations: `python manage.py makemigrations accounts nutella`
 - Appliquer les migrations: `python manage.py migrate`
-- Ajouter des catégories en base de donnée:
-    - `python manage.py add_category` avec le nom de la catégorie
-    - lorsque toutes les catégories nécessaires auront été ajoutées, mettez à jour la base de données avec:
-        - `python manage.py update_db`
-- Lancer le serveur de test: `python manage.py runserver`
+- Ajouter des produits en base de donnée: `python manage.py import_products 1000`
+- Lancer le serveur de développement: `python manage.py runserver`
 
 
 ### Production
@@ -54,7 +49,6 @@ Le déploiement en production s'est déroulé de la façon suivante:
     - Activation de `Github` comme méthode de déploiement
     - Connexion au dépôt du projet
     - Activation du déploiement automatique, avec l'option `Wait for CI to pass before deploy`
-- Une fois le projet déployé, entrée dans la console:
-    - `python manage.py makemigrations accounts nutella`
+- Une fois le projet déployé, entrez dans la console:
     - `python manage.py migrate`
     - `python manage.py import_products 1000`
