@@ -129,3 +129,5 @@ reset_db.bat
 test.bat
 
 static/
+
+*.sqlite3

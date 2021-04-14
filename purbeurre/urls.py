@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from os import getenv
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path(getenv("SECRET_ADMIN_URL") + "/admin/", admin.site.urls),
     path("", include("nutella.urls")),
     path("", include("accounts.urls")),
 ]
