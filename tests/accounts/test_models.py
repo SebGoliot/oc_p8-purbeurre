@@ -57,8 +57,10 @@ class TestModels(TestCase):
         }
 
         self.assertRaises(
-            ValueError, CustomUser.objects.create_superuser, **data
-        )  # type: ignore
+            ValueError,
+            CustomUser.objects.create_superuser,  # type: ignore
+            **data
+        )
 
     def test_manager_create_superuser_not_superuser(self):
         """This test checks if the create_superuser raises an error when the
@@ -71,5 +73,7 @@ class TestModels(TestCase):
         }
 
         self.assertRaises(
-            ValueError, CustomUser.objects.create_superuser, **data
-        )  # type: ignore
+            ValueError,
+            CustomUser.objects.create_superuser,  # type: ignore
+            **data
+        )
