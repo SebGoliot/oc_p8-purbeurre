@@ -27,6 +27,7 @@ jobs:
     - name: Run tests and codecov
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        SECRET_ADMIN_URL: ${{ secrets.SECRET_ADMIN_URL }}
       run: |
         python manage.py makemigrations accounts nutella
         coverage run --source='.' manage.py test
