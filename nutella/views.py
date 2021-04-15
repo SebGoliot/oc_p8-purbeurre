@@ -5,6 +5,7 @@ from nutella.models import Product, Bookmark
 from django.contrib.auth.decorators import login_required
 from collections import Counter
 import json
+from os import getenv
 
 
 def index(request):
@@ -14,7 +15,8 @@ def index(request):
 
 def legal(request):
     """Legal view, rendering the legal.html template"""
-    return render(request, "legal.html")
+    heroku = getenv("DJANGO_SETTINGS_MODULE") == "purbeurre.settings.heroku"
+    return render(request, "legal.html", {"heroku": heroku})
 
 
 def product(request, product_id):

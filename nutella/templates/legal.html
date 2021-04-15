@@ -29,7 +29,9 @@
   >
 </p>
 <hr class="divider my-4" />
+{% if heroku == True %}
 <p>Site hébergé par <a href="https://heroku.com"> Heroku</a></p>
+{% endif %}
 <p>Site développé par <a href="https://github.com/SebGoliot">SebGoliot</a></p>
   
 {% endblock page_content %}

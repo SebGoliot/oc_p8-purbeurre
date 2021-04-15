@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from nutella.views import *
 from nutella.models import Category, Product
 from accounts.models import CustomUser as CustomUser
-import json
+from os import environ
 
 
 class TestViews(TestCase):
@@ -50,6 +50,30 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, "legal.html")
+
+    def test_legal_heroku(self):
+        """This test checks if the legal view shows the heroku details when the
+        settings uses the heroku file
+        """
+        environ["DJANGO_SETTINGS_MODULE"] = 'purbeurre.settings.heroku'
+        response = self.client.get(reverse("legal"))
+        heroku = response.context["heroku"]
+
+        self.assertTrue(heroku)
+        self.assertInHTML(
+            "<a href=\"https://heroku.com\"> Heroku</a>",
+            response.content.decode()
+            )
+
+    def test_legal_not_heroku(self):
+        """This test checks if the legal view shows the heroku details when the
+        settings doesn't use the heroku file
+        """
+        environ["DJANGO_SETTINGS_MODULE"] = 'purbeurre.settings.development'
+        response = self.client.get(reverse("legal"))
+        heroku = response.context["heroku"]
+
+        self.assertFalse(heroku)
 
     def test_product(self):
         """This test checks if the product view behaves as expected"""
