@@ -6,7 +6,8 @@
 PurBeurre est une plateforme web à destination des clients de la startup du même nom.  
 Ce site permet à quiconque le souhaite de trouver un substitut sain à un aliment considéré comme "Trop gras, trop sucré, trop salé" (même si nous savons tous que le gras c’est la vie).
 
-Le projet déployé sur Heroku est [disponible ici](https://nutella-pur-beurre.herokuapp.com)
+Le projet déployé sur Heroku est [disponible ici](https://nutella-pur-beurre.herokuapp.com)  
+Le projet déployé sur VPS est [disponible ici](https://purbeurre.sebgoliot.com)
 
 ## 2. Fonctionnalités
 Plusieurs fonctionnalités sont nécessaires pour la réalisation de ce projet:
@@ -40,7 +41,7 @@ Pour lancer l'application en debug, il suffit de:
 
 
 ### Production
-Le déploiement en production s'est déroulé de la façon suivante:
+Le déploiement sur Heroku s'est déroulé de la façon suivante:
 - Création d'une app Heroku
 - Ajout des variables d'environnement nécessaires (Config Vars):
     - `SECRET_KEY` avec la clé secrète de Django
@@ -52,3 +53,6 @@ Le déploiement en production s'est déroulé de la façon suivante:
 - Une fois le projet déployé, entrez dans la console:
     - `python manage.py migrate`
     - `python manage.py import_products 1000`
+
+Le déploiement sur VPS est [détaillé ici](/Deploiement.md)
+
