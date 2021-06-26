@@ -22,7 +22,8 @@
   </div>
 </header>
 
-<section class="form-section bg-primary text-white" id="contact">
+{% if form_option_title and form_option_target and form_option_target %}
+<section class="form-section bg-primary text-white">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10 text-center">
@@ -36,5 +37,6 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 {% endblock %}
