@@ -119,3 +119,20 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertRedirects(response, reverse("index"))
+
+    def test_change_password_view(self):
+        """This test checks if the change_password view behaves as expected"""
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("edit-password"))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "auth_form.html")
+
+    def test_change_password_view_not_authenticated(self):
+        """This test checks if the change_password view behaves as expected if
+        the user is not authenticated
+        """
+        response = self.client.get(reverse("edit-password"))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("index"))
