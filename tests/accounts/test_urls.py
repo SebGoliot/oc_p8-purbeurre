@@ -1,7 +1,7 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 from accounts.views import (
-    SignupView, AccountView, LoginView, LogoutView, ChangePassword)
+    ChangeMail, SignupView, AccountView, LoginView, LogoutView, ChangePassword)
 
 
 class TestUrls(SimpleTestCase):
@@ -42,4 +42,12 @@ class TestUrls(SimpleTestCase):
 
         self.assertEquals(
             resolve(url).func.__name__, ChangePassword.as_view().__name__
+        )
+
+    def test_edit_mail_url_resolves(self):
+        """Checks if the edit_mail url resolves"""
+        url = reverse("edit-mail")
+
+        self.assertEquals(
+            resolve(url).func.__name__, ChangeMail.as_view().__name__
         )

@@ -9,3 +9,5 @@ omit =
     **/__init__.py
     tests/*
     venv/*
+    purbeurre/settings/heroku.py
+    purbeurre/settings/production.py

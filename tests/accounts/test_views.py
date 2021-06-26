@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
 from nutella.views import *
@@ -136,3 +137,52 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertRedirects(response, reverse("index"))
+
+    def test_change_password_view_post_invalid_old_password(self):
+        """This test checks if the change_mail view behaves as expected if
+        the user provides an invalid old password
+        """
+        response = self.client.post(
+            reverse("edit-password"),
+            data={
+                "old_password": "WRONG_password",
+                "password1": "new_password",
+                "password2": "new_password",
+            })
+
+        self.assertRaises(ValidationError)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "auth_form.html")
+
+    def test_change_mail_view(self):
+        """This test checks if the change_mail view behaves as expected"""
+        self.client.force_login(self.user)
+        response = self.client.get(reverse("edit-mail"))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "auth_form.html")
+
+    def test_change_mail_view_not_authenticated(self):
+        """This test checks if the change_mail view behaves as expected if
+        the user is not authenticated
+        """
+        response = self.client.get(reverse("edit-mail"))
+
+        self.assertEquals(response.status_code, 302)
+        self.assertRedirects(response, reverse("index"))
+
+    def test_change_mail_view_post_invalid_password(self):
+        """This test checks if the change_mail view behaves as expected if
+        the user provides an invalid password
+        """
+        response = self.client.post(
+            reverse("edit-mail"),
+            data={
+                "new_mail1": "new@mail.com",
+                "new_mail2": "new@mail.com",
+                "password": "WRONG_password",
+            })
+
+        self.assertRaises(ValidationError)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "auth_form.html")

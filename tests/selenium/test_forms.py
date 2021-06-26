@@ -129,3 +129,51 @@ class TestForms(StaticLiveServerTestCase):
         assert auth_user == None
         auth_user = authenticate(email=self.email, password=new_password)
         assert auth_user != None
+
+
+    def test_change_mail_form(self):
+        """This test checks the change_mail form behaviour"""
+
+        # same as test above, login and get to the account page
+        user = CustomUser.objects.create(
+            email=self.email, first_name=self.firstname
+        )
+        user.set_password(self.password)
+        user.save()
+
+        self.selenium.get(f"{self.live_server_url}/login/")
+
+        email = self.selenium.find_element_by_id("id_username")
+        password1 = self.selenium.find_element_by_id("id_password")
+        submit = self.selenium.find_element_by_id("submit_button")
+
+        email.send_keys(self.email)
+        password1.send_keys(self.password)
+        submit.send_keys(Keys.RETURN)
+
+        self.selenium.get(f"{self.live_server_url}/account/")
+
+        # once on the account page, try to change the mail
+        submit = self.selenium.find_element_by_id("change_mail")
+        submit.send_keys(Keys.RETURN)
+
+        new_mail1 = self.selenium.find_element_by_id("id_new_mail1")
+        new_mail2 = self.selenium.find_element_by_id("id_new_mail2")
+        password = self.selenium.find_element_by_id("id_password")
+        submit = self.selenium.find_element_by_id("submit_button")
+
+        new_mail = "new@mail.com"
+        new_mail1.send_keys(new_mail)
+        new_mail2.send_keys(new_mail)
+        password.send_keys(self.password)
+        submit.send_keys(Keys.RETURN)
+
+        # from there, we should be back on the account page
+        assert self.firstname in self.selenium.page_source
+        # check if the new mail is properly shown
+        self.assertInHTML(new_mail, self.selenium.page_source)
+
+        auth_user = authenticate(email=self.email, password=self.password)
+        assert auth_user == None
+        auth_user = authenticate(email=new_mail, password=self.password)
+        assert auth_user != None
