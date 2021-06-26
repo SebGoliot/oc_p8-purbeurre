@@ -136,7 +136,7 @@ class ChangeMail(View):
 
     ctx = {
         "form": EditMailForm(),
-        "form_title": "Changez votre mot de passe",
+        "form_title": "Changez votre adresse E-mail",
         "form_button": "Valider",
     }
 

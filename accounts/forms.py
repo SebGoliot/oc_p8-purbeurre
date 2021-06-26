@@ -99,22 +99,25 @@ class EditPasswordForm(forms.Form):
     error_css_class = "error"
 
     old_password = forms.CharField(
-        label="Nouvelle adresse mail",
+        label="Ancien mot de passe",
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Nouvelle adresse mail",
+                "placeholder": "Ancien mot de passe",
             }
         ),
     )
     password1 = forms.CharField(
         label="Mot de passe",
         widget=forms.PasswordInput(
-            attrs={"class": "form-control", "placeholder": "Mot de passe"}
+            attrs={
+                "class": "form-control",
+                "placeholder": "Mot de passe",
+            }
         ),
     )
     password2 = forms.CharField(
-        label="Mot de passe",
+        label="Confirmez votre mot de passe",
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
@@ -154,11 +157,11 @@ class EditMailForm(forms.Form):
         ),
     )
     new_mail2 = forms.EmailField(
-        label="Nouvelle adresse E-mail",
+        label="Confirmez l'adresse E-mail",
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Nouvelle adresse E-mail",
+                "placeholder": "Confirmez l'adresse E-mail",
             }
         ),
     )
