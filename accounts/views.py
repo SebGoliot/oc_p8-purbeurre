@@ -1,6 +1,9 @@
+from accounts.models import CustomUser
+from django import forms
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from accounts.forms import UserCreationForm, LoginForm
+from accounts.forms import (
+    UserCreationForm, LoginForm, EditPasswordForm, EditMailForm)
 
 from django.urls import reverse_lazy
 from django.views import View
@@ -95,3 +98,67 @@ class LogoutView(View):
         """Handles the user logout"""
         logout(request)
         return redirect("index")
+
+
+class ChangePassword(View):
+
+    ctx = {
+        "form": EditPasswordForm(),
+        "form_title": "Changez votre mot de passe",
+        "form_button": "Valider",
+    }
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("index")
+        return render(request, "auth_form.html", self.ctx)
+
+    def post(self, request, *args, **kwargs):
+        form = EditPasswordForm(data=request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data.get("old_password")
+            raw_password = form.cleaned_data.get("password1")
+            user = authenticate(email=request.user, password=old_password)
+            if user is not None and user.is_active:
+                user.set_password(raw_password)
+                user.save()
+                login(request, user)
+                return redirect("account")
+            else:
+                form.add_error(
+                    "old_password",
+                    forms.ValidationError("Le mot de passe actuel est invalide."),
+                )
+        return render(request, "auth_form.html", self.ctx)
+
+
+class ChangeMail(View):
+
+    ctx = {
+        "form": EditMailForm(),
+        "form_title": "Changez votre mot de passe",
+        "form_button": "Valider",
+    }
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect("index")
+        return render(request, "auth_form.html", self.ctx)
+
+    def post(self, request, *args, **kwargs):
+        form = EditMailForm(data=request.POST)
+        if form.is_valid():
+            new_mail = form.cleaned_data.get("new_mail1")
+            raw_password = form.cleaned_data.get("password")
+            user = authenticate(email=request.user, password=raw_password)
+            if user is not None and user.is_active:
+                user.email = new_mail   #type: ignore
+                user.save()
+                login(request, user)
+                return redirect("account")
+            else:
+                form.add_error(
+                    "password",
+                    forms.ValidationError("Mot de passe invalide."),
+                )
+        return render(request, "auth_form.html", self.ctx)
